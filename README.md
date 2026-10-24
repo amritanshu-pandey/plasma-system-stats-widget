@@ -21,8 +21,8 @@ Data comes from `ksystemstats`, the same service used by Plasma System Monitor.
 ## Install
 
 ```sh
-git clone <repository-url>
-cd plasma-system-stats
+git clone https://github.com/amritanshu-pandey/plasma-system-stats-widget.git
+cd plasma-system-stats-widget
 kpackagetool6 -t Plasma/Applet -i package
 ```
 

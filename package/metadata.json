@@ -8,12 +8,14 @@
             }
         ],
         "Category": "System Information",
-        "Description": "CPU, memory, disk and network usage in the panel",
+        "Description": "CPU, memory, disk, network, sensor and battery stats in the panel",
         "Icon": "utilities-system-monitor",
         "Id": "in.amritanshu.systemstats",
         "License": "GPL-3.0-or-later",
         "Name": "System Stats",
-        "Version": "0.1.0"
+        "Version": "0.1.0",
+        "Website": "https://github.com/amritanshu-pandey/plasma-system-stats-widget",
+        "BugReportUrl": "https://github.com/amritanshu-pandey/plasma-system-stats-widget/issues"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
 }
