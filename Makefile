@@ -24,7 +24,7 @@ lint:
 	python3 scripts/lint.py $(QML)
 
 pot:
-	xgettext --from-code=UTF-8 --language=JavaScript --add-comments=i18n \
+	xgettext --from-code=UTF-8 --language=JavaScript --add-comments=i18n --add-location=file \
 		--keyword= --keyword=i18n:1 --keyword=i18nc:1c,2 --keyword=i18np:1,2 --keyword=i18ncp:1c,2,3 \
 		--package-name="System Stats" --package-version=$(VERSION) \
 		--msgid-bugs-address=https://github.com/amritanshu-pandey/plasma-system-stats-widget/issues \
