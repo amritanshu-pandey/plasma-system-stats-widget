@@ -11,6 +11,7 @@ Item {
     readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     readonly property bool compactMode: Plasmoid.configuration.compactMode
     readonly property int spacing: Plasmoid.configuration.moduleSpacing
+    readonly property int padding: Plasmoid.configuration.verticalPadding
     readonly property var modules: Array.from(Plasmoid.configuration.panelModules)
         .filter(module => module !== "battery" || stats.hasBattery)
     readonly property bool showGraph: Plasmoid.configuration.showGraphs && !vertical
@@ -28,10 +29,10 @@ Item {
     GridLayout {
         id: grid
         anchors.fill: parent
-        anchors.leftMargin: compact.vertical ? 0 : compact.spacing / 2
-        anchors.rightMargin: compact.vertical ? 0 : compact.spacing / 2
-        anchors.topMargin: compact.vertical ? compact.spacing / 2 : 0
-        anchors.bottomMargin: compact.vertical ? compact.spacing / 2 : 0
+        anchors.leftMargin: compact.vertical ? compact.padding : compact.spacing / 2
+        anchors.rightMargin: compact.vertical ? compact.padding : compact.spacing / 2
+        anchors.topMargin: compact.vertical ? compact.spacing / 2 : compact.padding
+        anchors.bottomMargin: compact.vertical ? compact.spacing / 2 : compact.padding
         flow: compact.vertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
         rows: compact.vertical ? -1 : 1
         columns: compact.vertical ? 1 : -1

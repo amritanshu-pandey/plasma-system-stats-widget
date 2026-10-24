@@ -25,6 +25,12 @@
       <min>0</min>
       <max>48</max>
     </entry>
+    <entry name="verticalPadding" type="Int">
+      <label>Space between modules and the panel edges in pixels</label>
+      <default>6</default>
+      <min>0</min>
+      <max>24</max>
+    </entry>
     <entry name="networkBits" type="Bool">
       <label>Show network speed in bits per second</label>
       <default>false</default>

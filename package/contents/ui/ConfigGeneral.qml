@@ -12,6 +12,7 @@ KCM.SimpleKCM {
     property alias cfg_showGraphs: showGraphs.checked
     property alias cfg_showLabels: showLabels.checked
     property alias cfg_moduleSpacing: moduleSpacing.value
+    property alias cfg_verticalPadding: verticalPadding.value
     property alias cfg_networkBits: networkBits.checked
     property alias cfg_updateInterval: updateInterval.value
 
@@ -107,6 +108,15 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Module spacing:")
             from: 0
             to: 48
+            textFromValue: (value, locale) => i18nc("pixels", "%1 px", value)
+            valueFromText: (text, locale) => parseInt(text)
+        }
+
+        QQC2.SpinBox {
+            id: verticalPadding
+            Kirigami.FormData.label: i18n("Edge padding:")
+            from: 0
+            to: 24
             textFromValue: (value, locale) => i18nc("pixels", "%1 px", value)
             valueFromText: (text, locale) => parseInt(text)
         }

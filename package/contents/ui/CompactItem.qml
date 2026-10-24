@@ -45,8 +45,6 @@ RowLayout {
         id: graph
         visible: item.showGraph && !item.compactMode
         Layout.fillHeight: true
-        Layout.topMargin: Kirigami.Units.smallSpacing
-        Layout.bottomMargin: Kirigami.Units.smallSpacing
         Layout.preferredWidth: Kirigami.Units.gridUnit * 2
     }
 
