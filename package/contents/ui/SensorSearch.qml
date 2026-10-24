@@ -31,7 +31,7 @@ QtObject {
             }
         };
         walk(tree.index(-1, -1));
-        found.sort();
+        found.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
         if (found.join("\n") !== matches.join("\n")) {
             names = foundNames;
             matches = found;

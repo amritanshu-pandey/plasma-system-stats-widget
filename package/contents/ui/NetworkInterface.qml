@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import org.kde.plasma.components as PlasmaComponents
 import org.kde.kirigami as Kirigami
 import org.kde.ksysguard.sensors as Sensors
 
@@ -19,14 +18,10 @@ ColumnLayout {
         enabled: iface.active
     }
 
-    PlasmaComponents.Label {
+    SectionLabel {
         text: networkName.value && networkName.value !== iface.device
             ? i18nc("network name (device)", "%1 (%2)", networkName.value, iface.device)
             : iface.device
-        font.bold: true
-        elide: Text.ElideRight
-        Layout.fillWidth: true
-        Layout.topMargin: Kirigami.Units.smallSpacing
     }
 
     SensorRow {

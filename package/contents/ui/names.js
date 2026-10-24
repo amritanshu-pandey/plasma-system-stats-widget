@@ -1,22 +1,23 @@
 .pragma library
 
 // Readable names for common lm-sensors chip drivers, matched by prefix.
+// The order of this list is the display order.
 const chips = [
     [/^(k10temp|coretemp|zenpower|cpu_thermal)/, "CPU"],
     [/^(amdgpu|radeon|nouveau|nvidia|i915|xe)/, "GPU"],
     [/^gpu\d+/, "GPU"],
+    [/^(spd5118|jc42|ee1004)/, "Memory module"],
     [/^nvme/, "NVMe drive"],
     [/^drivetemp/, "Drive"],
-    [/^(spd5118|jc42|ee1004)/, "Memory module"],
-    [/^acpitz/, "ACPI thermal zone"],
-    [/^(iwlwifi|ath\d+|mt7\d+|rtw)/, "Wi-Fi"],
-    [/^cros_ec/, "Embedded controller"],
-    [/^(thinkpad|dell_smm|dell_ddv|asus|hp|applesmc|surface)/, "Laptop"],
     [/^(nct\d+|it\d+|f71\d+|w83\d+|asus_wmi|gigabyte_wmi)/, "Motherboard"],
     [/^pch_/, "Chipset"],
-    [/^ucsi_source_psy/, "USB-C"],
-    [/^(BAT|battery)/, "Battery"],
+    [/^(thinkpad|dell_smm|dell_ddv|asus|hp|applesmc|surface)/, "Laptop"],
+    [/^cros_ec/, "Embedded controller"],
+    [/^acpitz/, "ACPI thermal zone"],
+    [/^(iwlwifi|ath\d+|mt7\d+|rtw)/, "Wi-Fi"],
     [/^(r8169|igc|e1000e|enp|eth)/, "Ethernet"],
+    [/^(BAT|battery)/, "Battery"],
+    [/^ucsi_source_psy/, "USB-C"],
 ];
 
 // Common words used in sensor labels, mainly by embedded controllers.
@@ -32,6 +33,12 @@ const words = {
     vrm: "VRM",
     pch: "Chipset",
 };
+
+// Position of a chip in the display order. Unknown chips go last.
+function chipRank(chip) {
+    const index = chips.findIndex(([pattern]) => pattern.test(chip));
+    return index < 0 ? chips.length : index;
+}
 
 function chipName(chip) {
     for (const [pattern, name] of chips) {

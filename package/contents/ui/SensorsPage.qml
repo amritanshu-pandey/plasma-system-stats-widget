@@ -10,8 +10,9 @@ ColumnLayout {
     property Stats stats
     property bool active
 
-    // Sensors grouped by chip: [{ chip, name, ids, labels }]
-    function group(ids, names) {
+    // Groups sensors by chip, sorted by importance. Chips with one sensor are
+    // returned as single rows named after the chip; the rest as titled groups.
+    function arrange(ids, names) {
         const groups = [];
         for (const id of ids) {
             const chip = id.split("/")[1];
@@ -22,12 +23,39 @@ ColumnLayout {
             }
             entry.ids.push(id);
         }
+        groups.sort((a, b) => Names.chipRank(a.chip) - Names.chipRank(b.chip)
+                              || a.chip.localeCompare(b.chip, undefined, { numeric: true }));
+
         const chipNames = Names.chipNames(groups.map(g => g.chip));
+        const singles = [];
+        const multiples = [];
         groups.forEach((g, i) => {
-            g.name = chipNames[i];
-            g.labels = Names.sensorNames(g.ids.map(id => names[id]));
+            if (g.ids.length === 1) {
+                singles.push({ id: g.ids[0], label: chipNames[i] });
+            } else {
+                const labels = Names.sensorNames(g.ids.map(id => names[id]));
+                multiples.push({ name: chipNames[i], rows: g.ids.map((id, j) => ({ id: id, label: labels[j] })) });
+            }
         });
-        return groups;
+        return { singles: singles, groups: multiples };
+    }
+
+    readonly property var temperatureLayout: arrange(temperatures.matches, temperatures.names)
+    // Fans are named by sensor, with the chip name added when fans come from several chips.
+    readonly property var fanRows: {
+        const chips = fans.matches.map(id => id.split("/")[1]);
+        const unique = chips.filter((chip, i) => chips.indexOf(chip) === i);
+        const chipNames = Names.chipNames(unique);
+        const rows = [];
+        unique.forEach((chip, i) => {
+            const ids = fans.matches.filter(id => id.split("/")[1] === chip);
+            const labels = Names.sensorNames(ids.map(id => fans.names[id]));
+            ids.forEach((id, j) => rows.push({
+                id: id,
+                label: unique.length > 1 ? chipNames[i] + " – " + labels[j] : labels[j],
+            }));
+        });
+        return rows;
     }
 
     spacing: Kirigami.Units.smallSpacing
@@ -61,31 +89,47 @@ ColumnLayout {
         maximum: 100
     }
 
+    SectionLabel {
+        visible: page.temperatureLayout.singles.length > 0
+        text: i18n("Components")
+    }
+
     Repeater {
-        model: page.group(temperatures.matches, temperatures.names)
+        model: page.temperatureLayout.singles
+
+        TemperatureRow {
+            required property var modelData
+
+            sensorId: modelData.id
+            label: modelData.label
+            active: page.active
+        }
+    }
+
+    Repeater {
+        model: page.temperatureLayout.groups
 
         ColumnLayout {
             id: chipGroup
+
             required property var modelData
 
             spacing: Kirigami.Units.smallSpacing
             Layout.fillWidth: true
 
             SectionLabel {
-                text: modelData.name
+                text: chipGroup.modelData.name
             }
 
             Repeater {
-                model: modelData.ids
+                model: chipGroup.modelData.rows
 
-                SensorRow {
-                    required property string modelData
-                    required property int index
+                TemperatureRow {
+                    required property var modelData
 
-                    sensorId: modelData
-                    label: chipGroup.modelData.labels[index]
+                    sensorId: modelData.id
+                    label: modelData.label
                     active: page.active
-                    hideWhenEmpty: true
                 }
             }
         }
@@ -97,15 +141,15 @@ ColumnLayout {
     }
 
     Repeater {
-        model: fans.matches
+        model: page.fanRows
 
-        SensorRow {
-            required property string modelData
-            required property int index
+        TemperatureRow {
+            required property var modelData
 
-            sensorId: modelData
-            label: Names.sensorNames(fans.matches.map(id => fans.names[id]))[index]
+            sensorId: modelData.id
+            label: modelData.label
             active: page.active
+            temperature: false
         }
     }
 }

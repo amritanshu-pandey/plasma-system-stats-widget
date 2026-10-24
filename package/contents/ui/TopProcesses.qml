@@ -58,10 +58,8 @@ ColumnLayout {
         onTriggered: list.refresh()
     }
 
-    PlasmaComponents.Label {
+    SectionLabel {
         text: i18n("Top processes")
-        opacity: 0.7
-        Layout.topMargin: Kirigami.Units.smallSpacing
     }
 
     Repeater {

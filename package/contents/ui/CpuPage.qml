@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import org.kde.plasma.components as PlasmaComponents
 import org.kde.kirigami as Kirigami
 import org.kde.ksysguard.sensors as Sensors
 
@@ -59,10 +58,8 @@ ColumnLayout {
         hideWhenEmpty: true
     }
 
-    PlasmaComponents.Label {
+    SectionLabel {
         text: i18n("Cores")
-        opacity: 0.7
-        Layout.topMargin: Kirigami.Units.smallSpacing
     }
 
     RowLayout {
