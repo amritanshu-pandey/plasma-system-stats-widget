@@ -7,8 +7,10 @@ import org.kde.ksysguard.process as Process
 ColumnLayout {
     id: list
 
-    // Process attribute used for sorting and display, for example "usage" or "vmPSS".
-    property string attribute
+    // Process attributes, for example ["usage"]. Processes are ranked by the sum of their values.
+    property var attributes: []
+    // Formats the ranked value. Required when more than one attribute is used.
+    property var format: null
     property bool active
     property int count: 5
     property int interval: 2000
@@ -19,14 +21,14 @@ ColumnLayout {
 
     function refresh() {
         const nameColumn = processes.enabledAttributes.indexOf("name");
-        const valueColumn = processes.enabledAttributes.indexOf(list.attribute);
-        if (nameColumn < 0 || valueColumn < 0) {
+        const valueColumns = list.attributes.map(attribute => processes.enabledAttributes.indexOf(attribute));
+        if (nameColumn < 0 || valueColumns.length === 0 || valueColumns.includes(-1)) {
             return;
         }
 
         const ranked = [];
         for (let row = 0; row < processes.rowCount(); row++) {
-            const value = processes.data(processes.index(row, valueColumn), Process.ProcessDataModel.Value);
+            const value = valueColumns.reduce((sum, column) => sum + (Number(processes.data(processes.index(row, column), Process.ProcessDataModel.Value)) || 0), 0);
             if (value > 0) {
                 ranked.push({ row: row, value: value });
             }
@@ -36,7 +38,8 @@ ColumnLayout {
         rows = ranked.slice(0, list.count).map(entry => ({
             // Some programs, like Chrome, put their arguments in the process name.
             name: String(processes.data(processes.index(entry.row, nameColumn), Qt.DisplayRole)).split(" --")[0],
-            value: processes.data(processes.index(entry.row, valueColumn), Process.ProcessDataModel.FormattedValue),
+            value: list.format ? list.format(entry.value)
+                               : processes.data(processes.index(entry.row, valueColumns[0]), Process.ProcessDataModel.FormattedValue),
         }));
     }
 
@@ -44,7 +47,7 @@ ColumnLayout {
         id: processes
         enabled: list.active
         flatList: true
-        enabledAttributes: ["name", list.attribute]
+        enabledAttributes: ["name"].concat(list.attributes)
     }
 
     Timer {

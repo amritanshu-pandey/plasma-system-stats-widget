@@ -56,7 +56,7 @@ ColumnLayout {
         label: i18n("Temperature")
         sensorId: "cpu/all/averageTemperature"
         active: page.active
-        hideWhenZero: true
+        hideWhenEmpty: true
     }
 
     PlasmaComponents.Label {
@@ -105,7 +105,7 @@ ColumnLayout {
     }
 
     TopProcesses {
-        attribute: "usage"
+        attributes: ["usage"]
         active: page.active
         interval: page.stats.interval
         Layout.fillWidth: true

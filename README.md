@@ -6,8 +6,8 @@ Each module shows a small graph and its current value. Click a module to open a 
 
 - **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
 - **Memory**: used, application, cache, buffers, free, swap and top processes
-- **Disk**: read and write rates, used and free space
-- **Network**: download and upload rates, totals since boot
+- **Disk**: read and write rates, used and free space, top processes by disk I/O
+- **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway
 
 Data comes from `ksystemstats`, the same service used by Plasma System Monitor.
 

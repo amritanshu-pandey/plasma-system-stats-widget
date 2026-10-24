@@ -71,7 +71,7 @@ ColumnLayout {
     }
 
     TopProcesses {
-        attribute: "vmPSS"
+        attributes: ["vmPSS"]
         active: page.active
         interval: page.stats.interval
         Layout.fillWidth: true

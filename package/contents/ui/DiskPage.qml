@@ -70,4 +70,12 @@ ColumnLayout {
         sensorId: "disk/all/free"
         active: page.active
     }
+
+    TopProcesses {
+        attributes: ["ioCharactersActuallyReadRate", "ioCharactersActuallyWrittenRate"]
+        format: value => page.stats.rate(value)
+        active: page.active
+        interval: page.stats.interval
+        Layout.fillWidth: true
+    }
 }

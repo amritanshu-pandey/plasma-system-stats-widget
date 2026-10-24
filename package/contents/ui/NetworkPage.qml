@@ -1,14 +1,48 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
+import org.kde.ksysguard.sensors as Sensors
 
 ColumnLayout {
     id: page
 
     property Stats stats
     property bool active
+    property var devices: []
 
     spacing: Kirigami.Units.smallSpacing
+
+    // Find network devices by walking the sensor tree for network/<device>/network sensors.
+    function findDevices() {
+        const found = [];
+        const walk = parent => {
+            for (let row = 0; row < sensorTree.rowCount(parent); row++) {
+                const index = sensorTree.index(row, 0, parent);
+                const match = /^network\/([\w.:-]+)\/network$/.exec(sensorTree.data(index, Sensors.SensorTreeModel.SensorId) || "");
+                if (match && match[1] !== "all") {
+                    found.push(match[1]);
+                }
+                walk(index);
+            }
+        };
+        walk(sensorTree.index(-1, -1));
+        found.sort();
+        if (found.join() !== devices.join()) {
+            devices = found;
+        }
+    }
+
+    Sensors.SensorTreeModel {
+        id: sensorTree
+    }
+
+    Timer {
+        interval: 5000
+        running: page.active
+        repeat: true
+        triggeredOnStart: true
+        onTriggered: page.findDevices()
+    }
 
     PageHeader {
         title: i18n("Network")
@@ -54,5 +88,18 @@ ColumnLayout {
         label: i18n("Total uploaded")
         sensorId: "network/all/totalUpload"
         active: page.active
+    }
+
+    Repeater {
+        model: page.devices
+
+        NetworkInterface {
+            required property string modelData
+
+            device: modelData
+            stats: page.stats
+            active: page.active
+            Layout.fillWidth: true
+        }
     }
 }

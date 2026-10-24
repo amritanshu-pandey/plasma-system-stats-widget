@@ -10,10 +10,10 @@ RowLayout {
     property alias sensorId: sensor.sensorId
     property alias active: sensor.enabled
     property string value: sensor.formattedValue
-    property bool hideWhenZero: false
+    property bool hideWhenEmpty: false
     readonly property alias sensor: sensor
 
-    visible: !hideWhenZero || sensor.value > 0
+    visible: !hideWhenEmpty || (typeof sensor.value === "number" ? sensor.value > 0 : !!sensor.value)
     Layout.fillWidth: true
 
     Sensors.Sensor {
