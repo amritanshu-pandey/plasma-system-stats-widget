@@ -1,13 +1,15 @@
 # System Stats
 
-A Plasma 6 widget that shows CPU, memory, disk and network usage in the panel, inspired by [Stats](https://github.com/exelban/stats) for macOS.
+A Plasma 6 widget that shows system usage in the panel, inspired by [Stats](https://github.com/exelban/stats) for macOS.
 
 Each module shows a small graph and its current value. Click a module to open a popup with more detail:
 
 - **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
 - **Memory**: used, application, cache, buffers, free, swap and top processes
-- **Disk**: read and write rates, used and free space, top processes by disk I/O
+- **Disk**: read and write rates, used and free space, usage per volume and top processes by disk I/O
 - **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway
+- **Sensors**: CPU temperature history, all temperature sensors grouped by chip, and fan speeds
+- **Battery**: level, charging status, time remaining, power draw, charge, health and design capacity (only shown when a battery is present)
 
 Data comes from `ksystemstats`, the same service used by Plasma System Monitor.
 
@@ -42,9 +44,11 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 
 ## Settings
 
-- Choose which modules appear in the panel (the popup always shows all of them)
+- Choose which modules appear in the panel and their order (the popup always shows all of them)
 - Compact mode: smaller text, label above the value, no graphs
 - Show or hide graphs and labels
+- Space between panel modules
+- Network speed in bits or bytes per second
 - Update interval (1 to 10 seconds)
 
 ## Development

@@ -10,20 +10,22 @@ ColumnLayout {
     property string currentModule
     property bool active
 
-    readonly property var allModules: ["cpu", "memory", "disk", "network"]
+    readonly property var modules: ["cpu", "memory", "disk", "network", "sensors"]
+        .concat(stats.hasBattery ? ["battery"] : [])
     readonly property var titles: ({
         cpu: i18n("CPU"),
         memory: i18n("Memory"),
         disk: i18n("Disk"),
         network: i18n("Network"),
+        sensors: i18n("Sensors"),
+        battery: i18n("Battery"),
     })
 
     signal moduleSelected(string module)
 
-    Layout.minimumWidth: Kirigami.Units.gridUnit * 20
-    Layout.preferredWidth: Kirigami.Units.gridUnit * 20
-    Layout.minimumHeight: implicitHeight
-    Layout.preferredHeight: implicitHeight
+    Layout.minimumWidth: Kirigami.Units.gridUnit * 24
+    Layout.preferredWidth: Kirigami.Units.gridUnit * 24
+    Layout.preferredHeight: tabs.implicitHeight + spacing + Math.min(pages.implicitHeight, Kirigami.Units.gridUnit * 30)
     spacing: Kirigami.Units.largeSpacing
 
     PlasmaComponents.TabBar {
@@ -31,11 +33,11 @@ ColumnLayout {
         Layout.fillWidth: true
 
         Binding on currentIndex {
-            value: full.allModules.indexOf(full.currentModule)
+            value: full.modules.indexOf(full.currentModule)
         }
 
         Repeater {
-            model: full.allModules
+            model: full.modules
 
             PlasmaComponents.TabButton {
                 required property string modelData
@@ -45,25 +47,56 @@ ColumnLayout {
         }
     }
 
-    StackLayout {
+    PlasmaComponents.ScrollView {
+        id: scroll
         Layout.fillWidth: true
-        currentIndex: full.allModules.indexOf(full.currentModule)
+        Layout.fillHeight: true
+        contentWidth: availableWidth
+        PlasmaComponents.ScrollBar.horizontal.policy: PlasmaComponents.ScrollBar.AlwaysOff
 
-        CpuPage {
-            stats: full.stats
-            active: full.active && StackLayout.isCurrentItem
-        }
-        MemoryPage {
-            stats: full.stats
-            active: full.active && StackLayout.isCurrentItem
-        }
-        DiskPage {
-            stats: full.stats
-            active: full.active && StackLayout.isCurrentItem
-        }
-        NetworkPage {
-            stats: full.stats
-            active: full.active && StackLayout.isCurrentItem
+        readonly property var verticalBar: PlasmaComponents.ScrollBar.vertical
+
+        ColumnLayout {
+            id: pages
+            width: scroll.availableWidth - (scroll.verticalBar.visible ? scroll.verticalBar.width + Kirigami.Units.smallSpacing : 0)
+            spacing: 0
+
+            CpuPage {
+                visible: full.currentModule === "cpu"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            MemoryPage {
+                visible: full.currentModule === "memory"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            DiskPage {
+                visible: full.currentModule === "disk"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            NetworkPage {
+                visible: full.currentModule === "network"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            SensorsPage {
+                visible: full.currentModule === "sensors"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            BatteryPage {
+                visible: full.currentModule === "battery"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
         }
     }
 }

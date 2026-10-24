@@ -33,14 +33,14 @@ ColumnLayout {
         id: download
         label: i18n("Download")
         sensorId: "network/%1/download".arg(iface.device)
-        value: iface.stats.rate(download.sensor.value)
+        value: iface.stats.networkRate(download.sensor.value)
         active: iface.active
     }
     SensorRow {
         id: upload
         label: i18n("Upload")
         sensorId: "network/%1/upload".arg(iface.device)
-        value: iface.stats.rate(upload.sensor.value)
+        value: iface.stats.networkRate(upload.sensor.value)
         active: iface.active
     }
     SensorRow {

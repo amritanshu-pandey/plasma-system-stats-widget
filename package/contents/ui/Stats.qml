@@ -6,6 +6,9 @@ QtObject {
 
     property int interval: 1000
     property int historyLength: 60
+    property bool networkBits: false
+
+    readonly property Sensors.SensorTreeModel sensorTree: Sensors.SensorTreeModel {}
 
     readonly property Sensors.Sensor cpu: Sensors.Sensor {
         sensorId: "cpu/all/usage"
@@ -31,6 +34,28 @@ QtObject {
         sensorId: "network/all/upload"
         updateRateLimit: stats.interval
     }
+    readonly property Sensors.Sensor temperature: Sensors.Sensor {
+        sensorId: "cpu/all/averageTemperature"
+        updateRateLimit: stats.interval
+    }
+
+    readonly property SensorSearch batterySearch: SensorSearch {
+        tree: stats.sensorTree
+        pattern: /^power\/[\w.:-]+\/chargePercentage$/
+        interval: 60000
+    }
+    readonly property var batteries: batterySearch.matches.map(id => id.split("/")[1])
+    readonly property bool hasBattery: batteries.length > 0
+
+    readonly property Sensors.Sensor battery: Sensors.Sensor {
+        sensorId: stats.hasBattery ? "power/%1/chargePercentage".arg(stats.batteries[0]) : ""
+        updateRateLimit: stats.interval
+    }
+    readonly property Sensors.Sensor batteryRate: Sensors.Sensor {
+        sensorId: stats.hasBattery ? "power/%1/chargeRate".arg(stats.batteries[0]) : ""
+        updateRateLimit: stats.interval
+    }
+    readonly property bool charging: batteryRate.value > 0.05
 
     readonly property History cpuHistory: History { size: stats.historyLength }
     readonly property History memoryHistory: History { size: stats.historyLength }
@@ -38,6 +63,7 @@ QtObject {
     readonly property History diskWriteHistory: History { size: stats.historyLength }
     readonly property History downloadHistory: History { size: stats.historyLength }
     readonly property History uploadHistory: History { size: stats.historyLength }
+    readonly property History temperatureHistory: History { size: stats.historyLength }
 
     readonly property Timer sampler: Timer {
         interval: stats.interval
@@ -50,6 +76,7 @@ QtObject {
             stats.diskWriteHistory.push(stats.diskWrite.value);
             stats.downloadHistory.push(stats.download.value);
             stats.uploadHistory.push(stats.upload.value);
+            stats.temperatureHistory.push(stats.temperature.value);
         }
     }
 
@@ -57,11 +84,18 @@ QtObject {
         return Number.isFinite(value) ? Math.round(value) + "%" : "–";
     }
 
-    function rate(value) {
+    function celsius(value) {
+        return Number.isFinite(value) && value > 0 ? Math.round(value) + "°C" : "–";
+    }
+
+    function rate(value, bits) {
         if (!Number.isFinite(value)) {
             return "–";
         }
-        const units = ["B/s", "kB/s", "MB/s", "GB/s"];
+        if (bits) {
+            value *= 8;
+        }
+        const units = bits ? ["b/s", "kb/s", "Mb/s", "Gb/s"] : ["B/s", "kB/s", "MB/s", "GB/s"];
         let i = 0;
         while (value >= 1000 && i < units.length - 1) {
             value /= 1000;
@@ -69,5 +103,19 @@ QtObject {
         }
         const digits = i > 0 && value < 10 ? 1 : 0;
         return value.toFixed(digits) + " " + units[i];
+    }
+
+    function networkRate(value) {
+        return rate(value, networkBits);
+    }
+
+    function duration(hours) {
+        if (!Number.isFinite(hours) || hours <= 0) {
+            return "–";
+        }
+        const minutes = Math.round(hours * 60);
+        return minutes >= 60
+            ? i18nc("hours and minutes", "%1 h %2 min", Math.floor(minutes / 60), minutes % 60)
+            : i18nc("minutes", "%1 min", minutes);
     }
 }

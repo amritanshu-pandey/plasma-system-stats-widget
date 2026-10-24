@@ -24,12 +24,15 @@ PlasmoidItem {
         i18n("CPU: %1", monitor.percent(monitor.cpu.value)),
         i18n("Memory: %1", monitor.percent(monitor.memory.value)),
         i18n("Disk: %1 read, %2 write", monitor.rate(monitor.diskRead.value), monitor.rate(monitor.diskWrite.value)),
-        i18n("Network: %1 down, %2 up", monitor.rate(monitor.download.value), monitor.rate(monitor.upload.value)),
-    ].join("\n")
+        i18n("Network: %1 down, %2 up", monitor.networkRate(monitor.download.value), monitor.networkRate(monitor.upload.value)),
+    ].concat(monitor.temperature.value > 0 ? [i18n("CPU temperature: %1", monitor.celsius(monitor.temperature.value))] : [])
+     .concat(monitor.hasBattery ? [i18n("Battery: %1", monitor.percent(monitor.battery.value))] : [])
+     .join("\n")
 
     Stats {
         id: monitor
         interval: Plasmoid.configuration.updateInterval * 1000
+        networkBits: Plasmoid.configuration.networkBits
     }
 
     compactRepresentation: CompactRepresentation {
@@ -39,7 +42,7 @@ PlasmoidItem {
 
     fullRepresentation: FullRepresentation {
         stats: monitor
-        currentModule: root.currentModule
+        currentModule: root.currentModule === "battery" && !monitor.hasBattery ? "cpu" : root.currentModule
         active: root.expanded || Plasmoid.formFactor === PlasmaCore.Types.Planar
         onModuleSelected: module => root.currentModule = module
     }

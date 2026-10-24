@@ -11,6 +11,7 @@ Canvas {
     property real maximum: 0
     property color color: Kirigami.Theme.highlightColor
     property color secondColor: Kirigami.Theme.negativeTextColor
+    property color backgroundColor: Kirigami.Theme.textColor
 
     onValuesChanged: requestPaint()
     onSecondValuesChanged: requestPaint()
@@ -18,6 +19,7 @@ Canvas {
     onHeightChanged: requestPaint()
     onColorChanged: requestPaint()
     onSecondColorChanged: requestPaint()
+    onBackgroundColorChanged: requestPaint()
 
     function drawSeries(ctx, data, top, color) {
         if (data.length < 2) {
@@ -48,6 +50,12 @@ Canvas {
     onPaint: {
         const ctx = getContext("2d");
         ctx.reset();
+
+        ctx.globalAlpha = 0.06;
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, width, height);
+        ctx.globalAlpha = 1;
+
         const top = maximum > 0 ? maximum : Math.max(1, ...values, ...secondValues) * 1.1;
         drawSeries(ctx, values, top, color);
         drawSeries(ctx, secondValues, top, secondColor);

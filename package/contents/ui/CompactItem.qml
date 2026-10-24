@@ -14,6 +14,7 @@ RowLayout {
     property bool compactMode: false
     property bool showLabel: true
     property bool showGraph: true
+    property string iconName
     property alias values: graph.values
     property alias secondValues: graph.secondValues
     property alias maximum: graph.maximum
@@ -31,6 +32,13 @@ RowLayout {
         text: item.label
         font: Kirigami.Theme.smallFont
         opacity: 0.7
+    }
+
+    Kirigami.Icon {
+        visible: item.iconName !== "" && !item.compactMode
+        source: item.iconName
+        Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
+        Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
     }
 
     MiniGraph {

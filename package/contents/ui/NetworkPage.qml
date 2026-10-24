@@ -1,47 +1,20 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
-import org.kde.ksysguard.sensors as Sensors
 
 ColumnLayout {
     id: page
 
     property Stats stats
     property bool active
-    property var devices: []
 
     spacing: Kirigami.Units.smallSpacing
 
-    // Find network devices by walking the sensor tree for network/<device>/network sensors.
-    function findDevices() {
-        const found = [];
-        const walk = parent => {
-            for (let row = 0; row < sensorTree.rowCount(parent); row++) {
-                const index = sensorTree.index(row, 0, parent);
-                const match = /^network\/([\w.:-]+)\/network$/.exec(sensorTree.data(index, Sensors.SensorTreeModel.SensorId) || "");
-                if (match && match[1] !== "all") {
-                    found.push(match[1]);
-                }
-                walk(index);
-            }
-        };
-        walk(sensorTree.index(-1, -1));
-        found.sort();
-        if (found.join() !== devices.join()) {
-            devices = found;
-        }
-    }
-
-    Sensors.SensorTreeModel {
-        id: sensorTree
-    }
-
-    Timer {
-        interval: 5000
-        running: page.active
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: page.findDevices()
+    SensorSearch {
+        id: interfaces
+        tree: page.stats.sensorTree
+        pattern: /^network\/(?!all\/)[\w.:-]+\/network$/
+        active: page.active
     }
 
     PageHeader {
@@ -71,12 +44,12 @@ ColumnLayout {
 
     SensorRow {
         label: i18n("Download")
-        value: page.stats.rate(page.stats.download.value)
+        value: page.stats.networkRate(page.stats.download.value)
         active: false
     }
     SensorRow {
         label: i18n("Upload")
-        value: page.stats.rate(page.stats.upload.value)
+        value: page.stats.networkRate(page.stats.upload.value)
         active: false
     }
     SensorRow {
@@ -91,12 +64,12 @@ ColumnLayout {
     }
 
     Repeater {
-        model: page.devices
+        model: interfaces.matches
 
         NetworkInterface {
             required property string modelData
 
-            device: modelData
+            device: modelData.split("/")[1]
             stats: page.stats
             active: page.active
             Layout.fillWidth: true

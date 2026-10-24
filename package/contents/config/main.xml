@@ -6,17 +6,9 @@
   <kcfgfile name=""/>
 
   <group name="General">
-    <entry name="showCpu" type="Bool">
-      <default>true</default>
-    </entry>
-    <entry name="showMemory" type="Bool">
-      <default>true</default>
-    </entry>
-    <entry name="showDisk" type="Bool">
-      <default>true</default>
-    </entry>
-    <entry name="showNetwork" type="Bool">
-      <default>true</default>
+    <entry name="panelModules" type="StringList">
+      <label>Modules shown in the panel, in order</label>
+      <default>cpu,memory,disk,network</default>
     </entry>
     <entry name="compactMode" type="Bool">
       <default>false</default>
@@ -26,6 +18,16 @@
     </entry>
     <entry name="showLabels" type="Bool">
       <default>true</default>
+    </entry>
+    <entry name="moduleSpacing" type="Int">
+      <label>Space between panel modules in pixels</label>
+      <default>12</default>
+      <min>0</min>
+      <max>48</max>
+    </entry>
+    <entry name="networkBits" type="Bool">
+      <label>Show network speed in bits per second</label>
+      <default>false</default>
     </entry>
     <entry name="updateInterval" type="Int">
       <label>Update interval in seconds</label>

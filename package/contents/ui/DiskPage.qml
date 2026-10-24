@@ -71,6 +71,31 @@ ColumnLayout {
         active: page.active
     }
 
+    SensorSearch {
+        id: volumes
+        tree: page.stats.sensorTree
+        pattern: /^disk\/(?!all\/)[\w.:-]+\/usedPercent$/
+        active: page.active
+    }
+
+    SectionLabel {
+        visible: volumes.matches.length > 0
+        text: i18n("Volumes")
+    }
+
+    Repeater {
+        model: volumes.matches
+
+        VolumeRow {
+            required property string modelData
+
+            device: modelData.split("/")[1]
+            active: page.active
+            Layout.fillWidth: true
+            Layout.bottomMargin: Kirigami.Units.smallSpacing
+        }
+    }
+
     TopProcesses {
         attributes: ["ioCharactersActuallyReadRate", "ioCharactersActuallyWrittenRate"]
         format: value => page.stats.rate(value)
