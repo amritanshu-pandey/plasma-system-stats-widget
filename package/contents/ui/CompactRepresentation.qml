@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
@@ -43,6 +45,8 @@ Item {
             model: compact.modules
 
             Loader {
+                id: moduleLoader
+
                 required property string modelData
 
                 Layout.fillHeight: !compact.vertical
@@ -54,13 +58,13 @@ Item {
                     network: networkItem,
                     sensors: sensorsItem,
                     battery: batteryItem,
-                })[modelData] ?? null
+                })[moduleLoader.modelData] ?? null
 
                 Connections {
-                    target: item
+                    target: moduleLoader.item
                     ignoreUnknownSignals: true
                     function onClicked() {
-                        compact.activated(modelData);
+                        compact.activated(moduleLoader.modelData);
                     }
                 }
             }

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents
-import org.kde.kirigami as Kirigami
 import org.kde.ksysguard.sensors as Sensors
 
 ColumnLayout {

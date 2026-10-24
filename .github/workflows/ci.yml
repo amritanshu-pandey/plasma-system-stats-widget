@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: fedora:44
+    permissions:
+      contents: write
+    steps:
+      - name: Install tools
+        run: >
+          dnf install -y qt6-qtdeclarative-devel libplasma kf6-kirigami kf6-kcmutils
+          libksysguard gettext make zip python3 git
+
+      - uses: actions/checkout@v4
+
+      - name: Lint QML
+        run: make lint
+
+      - name: Check translation template is up to date
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          make pot
+          git diff -I '^"POT-Creation-Date:' --exit-code po/ || {
+            echo "po/*.pot is out of date. Run 'make pot' and commit the result."
+            exit 1
+          }
+
+      - name: Build plasmoid
+        run: make plasmoid
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plasmoid
+          path: build/*.plasmoid
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*.plasmoid
+          generate_release_notes: true

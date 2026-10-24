@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
@@ -13,12 +15,12 @@ ColumnLayout {
 
     // Show only one of the volumes that share the same usage, preferring the shortest name.
     function isPreferred(index) {
-        const self = volumeRows.itemAt(index);
+        const self = volumeRows.itemAt(index) as VolumeRow;
         if (!self || self.usageKey === "") {
             return true;
         }
         for (let i = 0; i < volumeRows.count; i++) {
-            const other = volumeRows.itemAt(i);
+            const other = volumeRows.itemAt(i) as VolumeRow;
             if (i === index || !other || other.usageKey !== self.usageKey) {
                 continue;
             }

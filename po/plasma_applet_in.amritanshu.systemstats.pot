@@ -1,0 +1,401 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the System Stats package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: System Stats 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/amritanshu-pandey/plasma-system-"
+"stats-widget/issues\n"
+"POT-Creation-Date: 2026-10-24 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: package/contents/config/config.qml:6
+msgid "General"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:58
+msgid "Status"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:59
+msgid "Charging"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:60
+msgid "Discharging"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:61
+msgid "Full"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:62
+msgid "Not charging"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:66
+msgid "Time remaining"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:66
+msgid "Time to full"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:74
+msgid "Charging power"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:74
+msgid "Power draw"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:76
+msgctxt "power in watts"
+msgid "%1 W"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:80
+msgid "Charge"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:81 package/contents/ui/MemoryPage.qml:27
+#: package/contents/ui/MemoryPage.qml:70 package/contents/ui/VolumeRow.qml:49
+msgid "%1 of %2"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:85
+msgid "Health"
+msgstr ""
+
+#: package/contents/ui/BatteryInfo.qml:90
+msgid "Design capacity"
+msgstr ""
+
+#: package/contents/ui/BatteryPage.qml:16
+#: package/contents/ui/ConfigGeneral.qml:32
+#: package/contents/ui/FullRepresentation.qml:23
+msgid "Battery"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:90
+#: package/contents/ui/ConfigGeneral.qml:27 package/contents/ui/CpuPage.qml:23
+#: package/contents/ui/FullRepresentation.qml:18
+msgid "CPU"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:107
+msgid "RAM"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:124
+msgid "DISK"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:142
+msgid "NET"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:160
+msgid "TEMP"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml:179
+msgid "BAT"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:28
+#: package/contents/ui/FullRepresentation.qml:19
+#: package/contents/ui/MemoryPage.qml:26
+msgid "Memory"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:29 package/contents/ui/DiskPage.qml:48
+#: package/contents/ui/FullRepresentation.qml:20
+msgid "Disk"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:30
+#: package/contents/ui/FullRepresentation.qml:21
+#: package/contents/ui/NetworkPage.qml:56
+msgid "Network"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:31
+#: package/contents/ui/FullRepresentation.qml:22
+#: package/contents/ui/SensorsPage.qml:81
+msgid "Sensors"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:36
+msgid "CPU average"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:37
+msgid "CPU maximum"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:91
+msgid "Panel modules:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:111
+msgid "Move up"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:118
+msgid "Move down"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:131
+msgid "Style:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:132
+msgid "Compact mode"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:137
+msgid "Show graphs"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:141
+msgid "Show labels"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:145
+msgid "Module spacing:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:148
+#: package/contents/ui/ConfigGeneral.qml:157
+msgctxt "pixels"
+msgid "%1 px"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:154
+msgid "Edge padding:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:166
+msgid "Panel temperature:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:176
+msgid "Network speed:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:177
+msgid "Show in bits per second"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:181
+msgid "Public IP:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:182
+msgid "Show public IP address"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:185
+msgid ""
+"Sends a request to api.ipify.org while the Network tab is open, at most "
+"every 10 minutes."
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:194
+msgid "Update interval:"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml:197
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: package/contents/ui/CpuPage.qml:24
+msgid "%1 core"
+msgid_plural "%1 cores"
+msgstr[0] ""
+msgstr[1] ""
+
+#: package/contents/ui/CpuPage.qml:37
+msgid "User"
+msgstr ""
+
+#: package/contents/ui/CpuPage.qml:42
+msgid "System"
+msgstr ""
+
+#: package/contents/ui/CpuPage.qml:47
+msgid "Wait"
+msgstr ""
+
+#: package/contents/ui/CpuPage.qml:52
+msgid "Frequency"
+msgstr ""
+
+#: package/contents/ui/CpuPage.qml:57
+msgid "Temperature"
+msgstr ""
+
+#: package/contents/ui/CpuPage.qml:64
+msgid "Cores"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:49
+msgid "%1 of %2 used"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:66 package/contents/ui/DiskPage.qml:75
+msgid "Read"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:70 package/contents/ui/DiskPage.qml:80
+msgid "Write"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:86
+msgid "Used space"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:91
+msgid "Free space"
+msgstr ""
+
+#: package/contents/ui/DiskPage.qml:105
+msgid "Volumes"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:41
+msgid "Used"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:46
+msgid "Application"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:51
+msgid "Cache"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:56
+msgid "Buffers"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:61
+msgid "Free"
+msgstr ""
+
+#: package/contents/ui/MemoryPage.qml:67
+msgid "Swap"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:23
+msgctxt "network name (device)"
+msgid "%1 (%2)"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:29
+#: package/contents/ui/NetworkPage.qml:72
+#: package/contents/ui/NetworkPage.qml:81
+msgid "Download"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:36
+#: package/contents/ui/NetworkPage.qml:76
+#: package/contents/ui/NetworkPage.qml:86
+msgid "Upload"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:42
+msgid "Signal"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:48
+msgid "IPv4 address"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:54
+msgid "Gateway"
+msgstr ""
+
+#: package/contents/ui/NetworkInterface.qml:60
+msgid "IPv6 address"
+msgstr ""
+
+#: package/contents/ui/NetworkPage.qml:91
+msgid "Total downloaded"
+msgstr ""
+
+#: package/contents/ui/NetworkPage.qml:96
+msgid "Total uploaded"
+msgstr ""
+
+#: package/contents/ui/NetworkPage.qml:101
+msgid "Public IPv4 address"
+msgstr ""
+
+#: package/contents/ui/NetworkPage.qml:107
+msgid "Public IPv6 address"
+msgstr ""
+
+#: package/contents/ui/SensorsPage.qml:96
+msgid "Components"
+msgstr ""
+
+#: package/contents/ui/SensorsPage.qml:142
+msgid "Fans"
+msgstr ""
+
+#: package/contents/ui/Stats.qml:120
+msgctxt "hours and minutes"
+msgid "%1 h %2 min"
+msgstr ""
+
+#: package/contents/ui/Stats.qml:121
+msgctxt "minutes"
+msgid "%1 min"
+msgstr ""
+
+#: package/contents/ui/TemperatureRow.qml:45
+msgctxt "fan is stopped"
+msgid "Off"
+msgstr ""
+
+#: package/contents/ui/TopProcesses.qml:64
+msgid "Top processes"
+msgstr ""
+
+#: package/contents/ui/main.qml:25
+msgid "CPU: %1"
+msgstr ""
+
+#: package/contents/ui/main.qml:26
+msgid "Memory: %1"
+msgstr ""
+
+#: package/contents/ui/main.qml:27
+msgid "Disk: %1 read, %2 write"
+msgstr ""
+
+#: package/contents/ui/main.qml:28
+msgid "Network: %1 down, %2 up"
+msgstr ""
+
+#: package/contents/ui/main.qml:29
+msgid "Temperature: %1"
+msgstr ""
+
+#: package/contents/ui/main.qml:30
+msgid "Battery: %1"
+msgstr ""

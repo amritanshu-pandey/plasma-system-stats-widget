@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents
@@ -66,18 +68,20 @@ ColumnLayout {
         model: list.rows
 
         RowLayout {
+            id: processRow
+
             required property var modelData
 
             spacing: Kirigami.Units.smallSpacing
             Layout.fillWidth: true
 
             PlasmaComponents.Label {
-                text: modelData.name
+                text: processRow.modelData.name
                 elide: Text.ElideRight
                 Layout.fillWidth: true
             }
             PlasmaComponents.Label {
-                text: modelData.value
+                text: processRow.modelData.value
             }
         }
     }

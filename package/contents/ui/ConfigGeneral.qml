@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
@@ -51,12 +53,12 @@ KCM.SimpleKCM {
     // All modules: enabled ones first in panel order, then the rest.
     property var order: []
 
-    function enabled() {
+    function enabledModules() {
         return Array.from(cfg_panelModules);
     }
 
     function setEnabled(module, on) {
-        const current = enabled();
+        const current = enabledModules();
         cfg_panelModules = order.filter(m => m === module ? on : current.includes(m));
     }
 
@@ -64,12 +66,12 @@ KCM.SimpleKCM {
         const next = order.slice();
         next.splice(to, 0, next.splice(from, 1)[0]);
         order = next;
-        const current = enabled();
+        const current = enabledModules();
         cfg_panelModules = order.filter(m => current.includes(m));
     }
 
     Component.onCompleted: {
-        const current = enabled().filter(m => m in titles);
+        const current = enabledModules().filter(m => m in titles);
         order = current.concat(Object.keys(titles).filter(m => !current.includes(m)));
     }
 
@@ -98,7 +100,7 @@ KCM.SimpleKCM {
 
                     QQC2.CheckBox {
                         text: page.titles[modelData]
-                        checked: page.enabled().includes(modelData)
+                        checked: page.enabledModules().includes(modelData)
                         onToggled: page.setEnabled(modelData, checked)
                         Layout.fillWidth: true
                     }

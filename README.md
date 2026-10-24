@@ -20,21 +20,29 @@ Data comes from `ksystemstats`, the same service used by Plasma System Monitor.
 
 ## Install
 
+### From a release
+
+Download the `.plasmoid` file from the [latest release](https://github.com/amritanshu-pandey/plasma-system-stats-widget/releases/latest) and install it:
+
+```sh
+kpackagetool6 -t Plasma/Applet -i system-stats-*.plasmoid
+```
+
+To update, use `-u` instead of `-i` with the newer file.
+
+### From source
+
 ```sh
 git clone https://github.com/amritanshu-pandey/plasma-system-stats-widget.git
 cd plasma-system-stats-widget
-kpackagetool6 -t Plasma/Applet -i package
+make install
 ```
+
+`make install` also updates an existing installation. Building translations needs `msgfmt` from gettext.
 
 Then right-click the panel, choose **Add Widgets…** and add **System Stats**.
 
-To update after pulling changes:
-
-```sh
-kpackagetool6 -t Plasma/Applet -u package
-```
-
-Plasma may cache the old version. If changes do not show up, restart the shell with `systemctl --user restart plasma-plasmashell`.
+Plasma keeps the old version loaded after an update. Restart the shell to load the new one with `systemctl --user restart plasma-plasmashell`.
 
 To remove:
 
@@ -55,6 +63,15 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 
 ## Development
 
+| Command | What it does |
+|---|---|
+| `make install` | Install or update the widget for the current user |
+| `make lint` | Check the QML with `qmllint` |
+| `make pot` | Update the translation template in `po/` |
+| `make plasmoid` | Build `build/system-stats-<version>.plasmoid` |
+
+`make lint` needs `qmllint` from the Qt 6 declarative development tools (`qt6-qtdeclarative-devel` on Fedora, `qt6-declarative-dev-tools` on Debian and Ubuntu).
+
 Run the widget in its own window without adding it to a panel:
 
 ```sh
@@ -62,6 +79,12 @@ plasmawindowed in.amritanshu.systemstats
 ```
 
 `plasmoidviewer` from the `plasma-sdk` package can also be used to test different panel form factors.
+
+CI runs `make lint`, checks that the translation template is up to date and builds the `.plasmoid` for every push and pull request. Pushing a `v*` tag publishes a GitHub release with the `.plasmoid` attached.
+
+## Translations
+
+Translations live in `po/`. See [po/README.md](po/README.md) for how to add or update one.
 
 ## License
 
