@@ -11,7 +11,9 @@ RowLayout {
     property string secondText
     // Widest expected text, used to keep the width stable.
     property string sample
+    // Label above the value, no graph. Always used in vertical panels.
     property bool compactMode: false
+    property bool vertical: false
     property bool showLabel: true
     property bool showGraph: true
     property string iconName
@@ -19,6 +21,7 @@ RowLayout {
     property int edgePadding: 0
     // Panel thickness. Text is scaled down to fit it. 0 disables scaling.
     property real availableHeight: 0
+    property real availableWidth: 0
     property alias values: graph.values
     property alias secondValues: graph.secondValues
     property alias maximum: graph.maximum
@@ -28,9 +31,14 @@ RowLayout {
     readonly property bool smallText: twoLines || compactMode
     readonly property font baseFont: smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
     readonly property int lines: 1 + (twoLines || (compactMode && showLabel) ? 1 : 0)
-    readonly property real textScale: availableHeight > 0
+    readonly property bool centered: compactMode && (vertical || !twoLines)
+    readonly property real heightScale: availableHeight > 0
         ? Math.min(1, (availableHeight - 2 * edgePadding) / (lines * fontMetrics.height))
         : 1
+    readonly property real widthScale: availableWidth > 0
+        ? Math.min(1, availableWidth / Math.max(1, sampleMetrics.advanceWidth, labelMetrics.advanceWidth))
+        : 1
+    readonly property real textScale: Math.min(heightScale, widthScale)
 
     signal clicked()
 
@@ -62,7 +70,7 @@ RowLayout {
     ColumnLayout {
         spacing: 0
         Layout.alignment: Qt.AlignVCenter
-        Layout.minimumWidth: Math.max(metrics.advanceWidth, topLabel.visible ? topLabel.implicitWidth : 0)
+        Layout.minimumWidth: Math.max(sampleMetrics.advanceWidth * item.textScale, topLabel.visible ? topLabel.implicitWidth : 0)
 
         PlasmaComponents.Label {
             id: topLabel
@@ -75,12 +83,13 @@ RowLayout {
         PlasmaComponents.Label {
             text: item.text
             font.pointSize: item.baseFont.pointSize * item.textScale
-            Layout.alignment: item.compactMode && !item.twoLines ? Qt.AlignHCenter : Qt.AlignLeft
+            Layout.alignment: item.centered ? Qt.AlignHCenter : Qt.AlignLeft
         }
         PlasmaComponents.Label {
             visible: item.twoLines
             text: item.secondText
             font.pointSize: Kirigami.Theme.smallFont.pointSize * item.textScale
+            Layout.alignment: item.centered ? Qt.AlignHCenter : Qt.AlignLeft
         }
     }
 
@@ -90,9 +99,15 @@ RowLayout {
     }
 
     TextMetrics {
-        id: metrics
-        font.pointSize: item.baseFont.pointSize * item.textScale
+        id: sampleMetrics
+        font: item.baseFont
         text: item.sample
+    }
+
+    TextMetrics {
+        id: labelMetrics
+        font: Kirigami.Theme.smallFont
+        text: topLabel.visible ? item.label : ""
     }
 
     TapHandler {

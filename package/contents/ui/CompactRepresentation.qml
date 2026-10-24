@@ -12,6 +12,7 @@ Item {
     property Stats stats
     readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     readonly property bool compactMode: Plasmoid.configuration.compactMode
+    readonly property bool stacked: compactMode || vertical
     readonly property int spacing: Plasmoid.configuration.moduleSpacing
     readonly property int padding: Plasmoid.configuration.verticalPadding
     readonly property var modules: Array.from(Plasmoid.configuration.panelModules)
@@ -50,7 +51,7 @@ Item {
                 required property string modelData
 
                 Layout.fillHeight: !compact.vertical
-                Layout.fillWidth: compact.vertical
+                Layout.alignment: compact.vertical ? Qt.AlignHCenter : Qt.AlignVCenter
                 sourceComponent: ({
                     cpu: cpuItem,
                     memory: memoryItem,
@@ -93,7 +94,9 @@ Item {
             values: compact.stats.cpuHistory.values
             maximum: 100
             size: compact.stats.historyLength
-            compactMode: compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
             showLabel: compact.showLabel
             showGraph: compact.showGraph
             edgePadding: compact.vertical ? 0 : compact.padding
@@ -110,7 +113,9 @@ Item {
             values: compact.stats.memoryHistory.values
             maximum: 100
             size: compact.stats.historyLength
-            compactMode: compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
             showLabel: compact.showLabel
             showGraph: compact.showGraph
             edgePadding: compact.vertical ? 0 : compact.padding
@@ -122,13 +127,17 @@ Item {
         id: diskItem
         CompactItem {
             label: i18n("DISK")
-            text: "R " + compact.stats.rate(compact.stats.diskRead.value)
-            secondText: "W " + compact.stats.rate(compact.stats.diskWrite.value)
-            sample: "W 999 kB/s"
+            text: "R " + (compact.vertical ? compact.stats.shortRate(compact.stats.diskRead.value)
+                                           : compact.stats.rate(compact.stats.diskRead.value))
+            secondText: "W " + (compact.vertical ? compact.stats.shortRate(compact.stats.diskWrite.value)
+                                                 : compact.stats.rate(compact.stats.diskWrite.value))
+            sample: compact.vertical ? "W 999K" : "W 999 kB/s"
             values: compact.stats.diskReadHistory.values
             secondValues: compact.stats.diskWriteHistory.values
             size: compact.stats.historyLength
-            compactMode: compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
             showLabel: compact.showLabel
             showGraph: compact.showGraph
             edgePadding: compact.vertical ? 0 : compact.padding
@@ -140,13 +149,18 @@ Item {
         id: networkItem
         CompactItem {
             label: i18n("NET")
-            text: "↓ " + compact.stats.networkRate(compact.stats.download.value)
-            secondText: "↑ " + compact.stats.networkRate(compact.stats.upload.value)
-            sample: compact.stats.networkBits ? "↓ 999 Mb/s" : "↓ 999 kB/s"
+            text: "↓ " + (compact.vertical ? compact.stats.networkShortRate(compact.stats.download.value)
+                                           : compact.stats.networkRate(compact.stats.download.value))
+            secondText: "↑ " + (compact.vertical ? compact.stats.networkShortRate(compact.stats.upload.value)
+                                                 : compact.stats.networkRate(compact.stats.upload.value))
+            sample: compact.vertical ? (compact.stats.networkBits ? "↓ 999Kb" : "↓ 999K")
+                                     : (compact.stats.networkBits ? "↓ 999 Mb/s" : "↓ 999 kB/s")
             values: compact.stats.downloadHistory.values
             secondValues: compact.stats.uploadHistory.values
             size: compact.stats.historyLength
-            compactMode: compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
             showLabel: compact.showLabel
             showGraph: compact.showGraph
             edgePadding: compact.vertical ? 0 : compact.padding
@@ -163,7 +177,9 @@ Item {
             values: compact.stats.temperatureHistory.values
             maximum: 100
             size: compact.stats.historyLength
-            compactMode: compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
             showLabel: compact.showLabel
             showGraph: compact.showGraph
             edgePadding: compact.vertical ? 0 : compact.padding
@@ -181,8 +197,10 @@ Item {
             sample: "100%"
             iconName: "battery-%1%2".arg(String(Math.round(level / 10) * 10).padStart(3, "0"))
                                     .arg(compact.stats.charging ? "-charging" : "")
-            compactMode: compact.compactMode
-            showLabel: compact.showLabel && compact.compactMode
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
+            showLabel: compact.showLabel && compact.stacked
             showGraph: false
             edgePadding: compact.vertical ? 0 : compact.padding
             availableHeight: compact.vertical ? 0 : grid.height

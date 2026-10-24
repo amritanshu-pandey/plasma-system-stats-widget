@@ -111,6 +111,28 @@ QtObject {
         return rate(value, networkBits);
     }
 
+    // Short form for narrow places, like "860K" or "1.2M".
+    function shortRate(value, bits) {
+        if (!Number.isFinite(value)) {
+            return "–";
+        }
+        if (bits) {
+            value *= 8;
+        }
+        const units = bits ? ["b", "Kb", "Mb", "Gb"] : ["B", "K", "M", "G"];
+        let i = 0;
+        while (value >= 1000 && i < units.length - 1) {
+            value /= 1000;
+            i++;
+        }
+        const digits = i > 0 && value < 10 ? 1 : 0;
+        return value.toFixed(digits) + units[i];
+    }
+
+    function networkShortRate(value) {
+        return shortRate(value, networkBits);
+    }
+
     function duration(hours) {
         if (!Number.isFinite(hours) || hours <= 0) {
             return "–";
