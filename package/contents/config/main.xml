@@ -39,6 +39,10 @@
       <label>Temperature sensor shown in the panel</label>
       <default>cpu/all/averageTemperature</default>
     </entry>
+    <entry name="showPublicIp" type="Bool">
+      <label>Look up and show the public IP address</label>
+      <default>false</default>
+    </entry>
     <entry name="updateInterval" type="Int">
       <label>Update interval in seconds</label>
       <default>1</default>

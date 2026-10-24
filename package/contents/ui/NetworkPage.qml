@@ -8,7 +8,40 @@ ColumnLayout {
     property Stats stats
     property bool active
 
+    property string publicIpv4
+    property string publicIpv6
+    property real publicIpTime: 0
+
     spacing: Kirigami.Units.smallSpacing
+
+    function lookUp(url, done) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                const text = request.status === 200 ? request.responseText.trim() : "";
+                done(/^[0-9a-f:.]+$/i.test(text) ? text : "");
+            }
+        };
+        request.open("GET", url);
+        request.send();
+    }
+
+    function refreshPublicIp() {
+        if (Date.now() - publicIpTime < 10 * 60 * 1000) {
+            return;
+        }
+        publicIpTime = Date.now();
+        lookUp("https://api.ipify.org", ip => publicIpv4 = ip);
+        lookUp("https://api6.ipify.org", ip => publicIpv6 = ip);
+    }
+
+    Timer {
+        interval: 60 * 1000
+        running: page.active && page.stats.showPublicIp
+        repeat: true
+        triggeredOnStart: true
+        onTriggered: page.refreshPublicIp()
+    }
 
     SensorSearch {
         id: interfaces
@@ -61,6 +94,18 @@ ColumnLayout {
         label: i18n("Total uploaded")
         sensorId: "network/all/totalUpload"
         active: page.active
+    }
+    SensorRow {
+        label: i18n("Public IPv4 address")
+        value: page.publicIpv4
+        active: false
+        visible: page.stats.showPublicIp && page.publicIpv4 !== ""
+    }
+    SensorRow {
+        label: i18n("Public IPv6 address")
+        value: page.publicIpv6
+        active: false
+        visible: page.stats.showPublicIp && page.publicIpv6 !== ""
     }
 
     Repeater {

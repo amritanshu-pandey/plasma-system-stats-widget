@@ -34,6 +34,7 @@ PlasmoidItem {
         interval: Plasmoid.configuration.updateInterval * 1000
         networkBits: Plasmoid.configuration.networkBits
         temperatureSensor: Plasmoid.configuration.temperatureSensor
+        showPublicIp: Plasmoid.configuration.showPublicIp
     }
 
     compactRepresentation: CompactRepresentation {

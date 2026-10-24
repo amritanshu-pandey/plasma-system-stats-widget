@@ -8,6 +8,7 @@ QtObject {
     property int historyLength: 60
     property bool networkBits: false
     property string temperatureSensor: "cpu/all/averageTemperature"
+    property bool showPublicIp: false
 
     readonly property Sensors.SensorTreeModel sensorTree: Sensors.SensorTreeModel {}
 

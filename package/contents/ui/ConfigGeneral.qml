@@ -19,6 +19,7 @@ KCM.SimpleKCM {
     property alias cfg_networkBits: networkBits.checked
     property alias cfg_updateInterval: updateInterval.value
     property string cfg_temperatureSensor
+    property alias cfg_showPublicIp: showPublicIp.checked
 
     readonly property var titles: ({
         cpu: i18n("CPU"),
@@ -173,6 +174,19 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Network speed:")
             text: i18n("Show in bits per second")
         }
+        QQC2.CheckBox {
+            id: showPublicIp
+            Kirigami.FormData.label: i18n("Public IP:")
+            text: i18n("Show public IP address")
+        }
+        QQC2.Label {
+            text: i18n("Sends a request to api.ipify.org while the Network tab is open, at most every 10 minutes.")
+            font: Kirigami.Theme.smallFont
+            opacity: 0.7
+            wrapMode: Text.Wrap
+            Layout.maximumWidth: Kirigami.Units.gridUnit * 18
+        }
+
         QQC2.SpinBox {
             id: updateInterval
             Kirigami.FormData.label: i18n("Update interval:")

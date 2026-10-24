@@ -7,7 +7,7 @@ Each module shows a small graph and its current value. Click a module to open a 
 - **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
 - **Memory**: used, application, cache, buffers, free, swap and top processes
 - **Disk**: read and write rates, used and free space, usage per volume (duplicates hidden) and top processes by disk I/O
-- **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway
+- **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway, and optionally the public IP address
 - **Sensors**: temperature history, all temperature sensors grouped by chip with readable names, and fan speeds
 - **Battery**: level, charging status, time remaining, power draw, charge, health and design capacity (only shown when a battery is present)
 
@@ -50,6 +50,7 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 - Space between panel modules, and padding between modules and the panel edges (text shrinks to fit)
 - Temperature sensor shown in the panel (CPU average, CPU maximum or any detected sensor)
 - Network speed in bits or bytes per second
+- Public IP address (off by default; asks api.ipify.org while the Network tab is open, at most every 10 minutes)
 - Update interval (1 to 10 seconds)
 
 ## Development
