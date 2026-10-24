@@ -4,8 +4,8 @@ A Plasma 6 widget that shows CPU, memory, disk and network usage in the panel, i
 
 Each module shows a small graph and its current value. Click a module to open a popup with more detail:
 
-- **CPU**: total usage, user/system/wait split, frequency, temperature and per-core usage
-- **Memory**: used, application, cache, buffers, free and swap
+- **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
+- **Memory**: used, application, cache, buffers, free, swap and top processes
 - **Disk**: read and write rates, used and free space
 - **Network**: download and upload rates, totals since boot
 

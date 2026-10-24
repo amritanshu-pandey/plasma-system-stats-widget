@@ -69,4 +69,11 @@ ColumnLayout {
         active: page.active
         value: i18n("%1 of %2", swap.sensor.formattedValue, swapTotal.formattedValue)
     }
+
+    TopProcesses {
+        attribute: "vmPSS"
+        active: page.active
+        interval: page.stats.interval
+        Layout.fillWidth: true
+    }
 }

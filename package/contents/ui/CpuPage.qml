@@ -103,4 +103,11 @@ ColumnLayout {
             }
         }
     }
+
+    TopProcesses {
+        attribute: "usage"
+        active: page.active
+        interval: page.stats.interval
+        Layout.fillWidth: true
+    }
 }
