@@ -92,7 +92,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
-            graphPadding: compact.vertical ? 0 : compact.padding
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 
@@ -108,7 +109,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
-            graphPadding: compact.vertical ? 0 : compact.padding
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 
@@ -125,7 +127,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
-            graphPadding: compact.vertical ? 0 : compact.padding
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 
@@ -142,7 +145,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
-            graphPadding: compact.vertical ? 0 : compact.padding
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 
@@ -158,7 +162,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
-            graphPadding: compact.vertical ? 0 : compact.padding
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 
@@ -175,6 +180,8 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel && compact.compactMode
             showGraph: false
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
         }
     }
 }

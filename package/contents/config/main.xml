@@ -26,7 +26,7 @@
       <max>48</max>
     </entry>
     <entry name="verticalPadding" type="Int">
-      <label>Space between graphs and the panel edges in pixels</label>
+      <label>Space between modules and the panel edges in pixels</label>
       <default>6</default>
       <min>0</min>
       <max>24</max>

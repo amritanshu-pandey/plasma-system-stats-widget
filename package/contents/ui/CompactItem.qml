@@ -15,7 +15,10 @@ RowLayout {
     property bool showLabel: true
     property bool showGraph: true
     property string iconName
-    property int graphPadding: 0
+    // Space kept free at the top and bottom panel edges.
+    property int edgePadding: 0
+    // Panel thickness. Text is scaled down to fit it. 0 disables scaling.
+    property real availableHeight: 0
     property alias values: graph.values
     property alias secondValues: graph.secondValues
     property alias maximum: graph.maximum
@@ -23,6 +26,11 @@ RowLayout {
 
     readonly property bool twoLines: secondText !== ""
     readonly property bool smallText: twoLines || compactMode
+    readonly property font baseFont: smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+    readonly property int lines: 1 + (twoLines || (compactMode && showLabel) ? 1 : 0)
+    readonly property real textScale: availableHeight > 0
+        ? Math.min(1, (availableHeight - 2 * edgePadding) / (lines * fontMetrics.height))
+        : 1
 
     signal clicked()
 
@@ -46,8 +54,8 @@ RowLayout {
         id: graph
         visible: item.showGraph && !item.compactMode
         Layout.fillHeight: true
-        Layout.topMargin: item.graphPadding
-        Layout.bottomMargin: item.graphPadding
+        Layout.topMargin: item.edgePadding
+        Layout.bottomMargin: item.edgePadding
         Layout.preferredWidth: Kirigami.Units.gridUnit * 2
     }
 
@@ -60,25 +68,30 @@ RowLayout {
             id: topLabel
             visible: item.compactMode && item.showLabel && !item.twoLines
             text: item.label
-            font: Kirigami.Theme.smallFont
+            font.pointSize: Kirigami.Theme.smallFont.pointSize * item.textScale
             opacity: 0.7
             Layout.alignment: Qt.AlignHCenter
         }
         PlasmaComponents.Label {
             text: item.text
-            font: item.smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+            font.pointSize: item.baseFont.pointSize * item.textScale
             Layout.alignment: item.compactMode && !item.twoLines ? Qt.AlignHCenter : Qt.AlignLeft
         }
         PlasmaComponents.Label {
             visible: item.twoLines
             text: item.secondText
-            font: Kirigami.Theme.smallFont
+            font.pointSize: Kirigami.Theme.smallFont.pointSize * item.textScale
         }
+    }
+
+    FontMetrics {
+        id: fontMetrics
+        font: item.baseFont
     }
 
     TextMetrics {
         id: metrics
-        font: item.smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+        font.pointSize: item.baseFont.pointSize * item.textScale
         text: item.sample
     }
 
