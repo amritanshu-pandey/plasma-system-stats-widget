@@ -54,6 +54,7 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 
 - Choose which modules appear in the panel and their order (the popup always shows all of them)
 - Compact mode: smaller text, label above the value, no graphs
+- Gauge mode: a small ring for each module that fills with its level, with the label or value inside
 - Vertical panels always use the compact layout, with short rates like `860K`, and text shrinks to fit the panel width
 - Show or hide graphs and labels
 - Space between panel modules, and padding between modules and the panel edges (text shrinks to fit)

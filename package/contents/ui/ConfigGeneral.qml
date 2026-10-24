@@ -13,7 +13,8 @@ KCM.SimpleKCM {
     id: page
 
     property var cfg_panelModules: []
-    property alias cfg_compactMode: compactMode.checked
+    property bool cfg_compactMode
+    property bool cfg_gaugeMode
     property alias cfg_showGraphs: showGraphs.checked
     property alias cfg_showLabels: showLabels.checked
     property alias cfg_moduleSpacing: moduleSpacing.value
@@ -126,14 +127,25 @@ KCM.SimpleKCM {
             Kirigami.FormData.isSection: true
         }
 
-        QQC2.CheckBox {
-            id: compactMode
+        QQC2.RadioButton {
             Kirigami.FormData.label: i18n("Style:")
-            text: i18n("Compact mode")
+            text: i18n("Normal")
+            checked: !page.cfg_compactMode && !page.cfg_gaugeMode
+            onToggled: if (checked) { page.cfg_compactMode = false; page.cfg_gaugeMode = false; }
+        }
+        QQC2.RadioButton {
+            text: i18n("Compact: label above the value")
+            checked: page.cfg_compactMode && !page.cfg_gaugeMode
+            onToggled: if (checked) { page.cfg_compactMode = true; page.cfg_gaugeMode = false; }
+        }
+        QQC2.RadioButton {
+            text: i18n("Gauges: a ring for each module")
+            checked: page.cfg_gaugeMode
+            onToggled: if (checked) { page.cfg_compactMode = false; page.cfg_gaugeMode = true; }
         }
         QQC2.CheckBox {
             id: showGraphs
-            enabled: !compactMode.checked
+            enabled: !page.cfg_compactMode && !page.cfg_gaugeMode
             text: i18n("Show graphs")
         }
         QQC2.CheckBox {

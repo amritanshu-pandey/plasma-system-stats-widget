@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: System Stats 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/amritanshu-pandey/plasma-system-"
 "stats-widget/issues\n"
-"POT-Creation-Date: 2026-10-24 19:17+0000\n"
+"POT-Creation-Date: 2026-10-24 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,14 +89,17 @@ msgstr ""
 #: package/contents/ui/CompactRepresentation.qml
 #: package/contents/ui/ConfigGeneral.qml package/contents/ui/CpuPage.qml
 #: package/contents/ui/FullRepresentation.qml
+#: package/contents/ui/ModuleGauge.qml
 msgid "CPU"
 msgstr ""
 
 #: package/contents/ui/CompactRepresentation.qml
+#: package/contents/ui/ModuleGauge.qml
 msgid "RAM"
 msgstr ""
 
 #: package/contents/ui/CompactRepresentation.qml
+#: package/contents/ui/ModuleGauge.qml
 msgid "DISK"
 msgstr ""
 
@@ -160,7 +163,15 @@ msgid "Style:"
 msgstr ""
 
 #: package/contents/ui/ConfigGeneral.qml
-msgid "Compact mode"
+msgid "Normal"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml
+msgid "Compact: label above the value"
+msgstr ""
+
+#: package/contents/ui/ConfigGeneral.qml
+msgid "Gauges: a ring for each module"
 msgstr ""
 
 #: package/contents/ui/ConfigGeneral.qml

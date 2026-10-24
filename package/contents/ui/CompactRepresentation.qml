@@ -13,6 +13,8 @@ Item {
     readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     readonly property bool compactMode: Plasmoid.configuration.compactMode
     readonly property bool stacked: compactMode || vertical
+    readonly property bool gaugeMode: Plasmoid.configuration.gaugeMode
+    readonly property real gaugeSize: (vertical ? grid.width : grid.height) - 2 * padding
     readonly property int spacing: Plasmoid.configuration.moduleSpacing
     readonly property int padding: Plasmoid.configuration.verticalPadding
     readonly property var modules: Array.from(Plasmoid.configuration.panelModules)
@@ -50,9 +52,9 @@ Item {
 
                 required property string modelData
 
-                Layout.fillHeight: !compact.vertical
+                Layout.fillHeight: !compact.vertical && !compact.gaugeMode
                 Layout.alignment: compact.vertical ? Qt.AlignHCenter : Qt.AlignVCenter
-                sourceComponent: ({
+                sourceComponent: compact.gaugeMode ? gaugeItem : ({
                     cpu: cpuItem,
                     memory: memoryItem,
                     disk: diskItem,
@@ -60,6 +62,17 @@ Item {
                     sensors: sensorsItem,
                     battery: batteryItem,
                 })[moduleLoader.modelData] ?? null
+
+                Component {
+                    id: gaugeItem
+                    ModuleGauge {
+                        module: moduleLoader.modelData
+                        stats: compact.stats
+                        showLabel: compact.showLabel
+                        width: Math.max(Kirigami.Units.iconSizes.small, compact.gaugeSize)
+                        height: width
+                    }
+                }
 
                 Connections {
                     target: moduleLoader.item
