@@ -11,6 +11,7 @@ RowLayout {
     property string secondText
     // Widest expected text, used to keep the width stable.
     property string sample
+    property bool compactMode: false
     property bool showLabel: true
     property bool showGraph: true
     property alias values: graph.values
@@ -19,13 +20,14 @@ RowLayout {
     property alias size: graph.size
 
     readonly property bool twoLines: secondText !== ""
+    readonly property bool smallText: twoLines || compactMode
 
     signal clicked()
 
     spacing: Kirigami.Units.smallSpacing
 
     PlasmaComponents.Label {
-        visible: item.showLabel
+        visible: item.showLabel && !item.compactMode
         text: item.label
         font: Kirigami.Theme.smallFont
         opacity: 0.7
@@ -33,7 +35,7 @@ RowLayout {
 
     MiniGraph {
         id: graph
-        visible: item.showGraph
+        visible: item.showGraph && !item.compactMode
         Layout.fillHeight: true
         Layout.topMargin: Kirigami.Units.smallSpacing
         Layout.bottomMargin: Kirigami.Units.smallSpacing
@@ -42,11 +44,20 @@ RowLayout {
 
     ColumnLayout {
         spacing: 0
-        Layout.minimumWidth: metrics.advanceWidth
+        Layout.minimumWidth: Math.max(metrics.advanceWidth, topLabel.visible ? topLabel.implicitWidth : 0)
 
         PlasmaComponents.Label {
+            id: topLabel
+            visible: item.compactMode && item.showLabel && !item.twoLines
+            text: item.label
+            font: Kirigami.Theme.smallFont
+            opacity: 0.7
+            Layout.alignment: Qt.AlignHCenter
+        }
+        PlasmaComponents.Label {
             text: item.text
-            font: item.twoLines ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+            font: item.smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+            Layout.alignment: item.compactMode && !item.twoLines ? Qt.AlignHCenter : Qt.AlignLeft
         }
         PlasmaComponents.Label {
             visible: item.twoLines
@@ -57,7 +68,7 @@ RowLayout {
 
     TextMetrics {
         id: metrics
-        font: item.twoLines ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
+        font: item.smallText ? Kirigami.Theme.smallFont : Kirigami.Theme.defaultFont
         text: item.sample
     }
 

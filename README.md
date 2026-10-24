@@ -42,7 +42,8 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 
 ## Settings
 
-- Choose which modules appear in the panel
+- Choose which modules appear in the panel (the popup always shows all of them)
+- Compact mode: smaller text, label above the value, no graphs
 - Show or hide graphs and labels
 - Update interval (1 to 10 seconds)
 

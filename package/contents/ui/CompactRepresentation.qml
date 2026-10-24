@@ -9,6 +9,9 @@ Item {
 
     property Stats stats
     readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
+    readonly property bool compactMode: Plasmoid.configuration.compactMode
+    readonly property bool empty: !Plasmoid.configuration.showCpu && !Plasmoid.configuration.showMemory
+        && !Plasmoid.configuration.showDisk && !Plasmoid.configuration.showNetwork
 
     signal activated(string module)
 
@@ -25,7 +28,7 @@ Item {
         flow: compact.vertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
         rows: compact.vertical ? -1 : 1
         columns: compact.vertical ? 1 : -1
-        columnSpacing: Kirigami.Units.largeSpacing
+        columnSpacing: compact.compactMode ? Kirigami.Units.smallSpacing * 2 : Kirigami.Units.largeSpacing
         rowSpacing: Kirigami.Units.smallSpacing
 
         CompactItem {
@@ -36,6 +39,7 @@ Item {
             values: compact.stats.cpuHistory.values
             maximum: 100
             size: compact.stats.historyLength
+            compactMode: compact.compactMode
             showLabel: Plasmoid.configuration.showLabels
             showGraph: Plasmoid.configuration.showGraphs && !compact.vertical
             onClicked: compact.activated("cpu")
@@ -49,6 +53,7 @@ Item {
             values: compact.stats.memoryHistory.values
             maximum: 100
             size: compact.stats.historyLength
+            compactMode: compact.compactMode
             showLabel: Plasmoid.configuration.showLabels
             showGraph: Plasmoid.configuration.showGraphs && !compact.vertical
             onClicked: compact.activated("memory")
@@ -63,6 +68,7 @@ Item {
             values: compact.stats.diskReadHistory.values
             secondValues: compact.stats.diskWriteHistory.values
             size: compact.stats.historyLength
+            compactMode: compact.compactMode
             showLabel: Plasmoid.configuration.showLabels
             showGraph: Plasmoid.configuration.showGraphs && !compact.vertical
             onClicked: compact.activated("disk")
@@ -77,9 +83,23 @@ Item {
             values: compact.stats.downloadHistory.values
             secondValues: compact.stats.uploadHistory.values
             size: compact.stats.historyLength
+            compactMode: compact.compactMode
             showLabel: Plasmoid.configuration.showLabels
             showGraph: Plasmoid.configuration.showGraphs && !compact.vertical
             onClicked: compact.activated("network")
+        }
+
+        Kirigami.Icon {
+            visible: compact.empty
+            source: Plasmoid.icon
+            Layout.fillWidth: compact.vertical
+            Layout.fillHeight: !compact.vertical
+            Layout.preferredWidth: compact.vertical ? -1 : height
+            Layout.preferredHeight: compact.vertical ? width : -1
+
+            TapHandler {
+                onTapped: compact.activated("cpu")
+            }
         }
     }
 }

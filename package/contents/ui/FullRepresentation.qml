@@ -7,7 +7,6 @@ ColumnLayout {
     id: full
 
     property Stats stats
-    property var modules: []
     property string currentModule
     property bool active
 
@@ -29,15 +28,14 @@ ColumnLayout {
 
     PlasmaComponents.TabBar {
         id: tabs
-        visible: full.modules.length > 1
         Layout.fillWidth: true
 
         Binding on currentIndex {
-            value: full.modules.indexOf(full.currentModule)
+            value: full.allModules.indexOf(full.currentModule)
         }
 
         Repeater {
-            model: full.modules
+            model: full.allModules
 
             PlasmaComponents.TabButton {
                 required property string modelData

@@ -6,14 +6,6 @@ import org.kde.plasma.core as PlasmaCore
 PlasmoidItem {
     id: root
 
-    readonly property var modules: ["cpu", "memory", "disk", "network"].filter(name => {
-        switch (name) {
-        case "cpu": return Plasmoid.configuration.showCpu;
-        case "memory": return Plasmoid.configuration.showMemory;
-        case "disk": return Plasmoid.configuration.showDisk;
-        case "network": return Plasmoid.configuration.showNetwork;
-        }
-    })
     property string currentModule: "cpu"
 
     function toggle(module) {
@@ -47,8 +39,7 @@ PlasmoidItem {
 
     fullRepresentation: FullRepresentation {
         stats: monitor
-        modules: root.modules
-        currentModule: root.modules.includes(root.currentModule) ? root.currentModule : (root.modules[0] ?? "cpu")
+        currentModule: root.currentModule
         active: root.expanded || Plasmoid.formFactor === PlasmaCore.Types.Planar
         onModuleSelected: module => root.currentModule = module
     }

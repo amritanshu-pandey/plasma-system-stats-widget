@@ -8,6 +8,7 @@ KCM.SimpleKCM {
     property alias cfg_showMemory: showMemory.checked
     property alias cfg_showDisk: showDisk.checked
     property alias cfg_showNetwork: showNetwork.checked
+    property alias cfg_compactMode: compactMode.checked
     property alias cfg_showGraphs: showGraphs.checked
     property alias cfg_showLabels: showLabels.checked
     property alias cfg_updateInterval: updateInterval.value
@@ -15,7 +16,7 @@ KCM.SimpleKCM {
     Kirigami.FormLayout {
         QQC2.CheckBox {
             id: showCpu
-            Kirigami.FormData.label: i18n("Modules:")
+            Kirigami.FormData.label: i18n("Show in panel:")
             text: i18n("CPU")
         }
         QQC2.CheckBox {
@@ -36,8 +37,13 @@ KCM.SimpleKCM {
         }
 
         QQC2.CheckBox {
+            id: compactMode
+            Kirigami.FormData.label: i18n("Style:")
+            text: i18n("Compact mode")
+        }
+        QQC2.CheckBox {
             id: showGraphs
-            Kirigami.FormData.label: i18n("Panel:")
+            enabled: !compactMode.checked
             text: i18n("Show graphs")
         }
         QQC2.CheckBox {
