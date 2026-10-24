@@ -42,7 +42,7 @@ RowLayout {
     }
 
     PlasmaComponents.Label {
-        text: sensor.formattedValue
+        text: !row.temperature && row.value === 0 ? i18nc("fan is stopped", "Off") : sensor.formattedValue
         color: row.hot ? Kirigami.Theme.negativeTextColor
              : row.warm ? Kirigami.Theme.neutralTextColor
              : Kirigami.Theme.textColor
