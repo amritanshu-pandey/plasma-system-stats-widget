@@ -47,7 +47,7 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 - Choose which modules appear in the panel and their order (the popup always shows all of them)
 - Compact mode: smaller text, label above the value, no graphs
 - Show or hide graphs and labels
-- Space between panel modules, and padding between modules and the panel edges
+- Space between panel modules, and padding between graphs and the panel edges
 - Network speed in bits or bytes per second
 - Update interval (1 to 10 seconds)
 

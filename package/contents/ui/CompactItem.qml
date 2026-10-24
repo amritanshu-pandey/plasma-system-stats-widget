@@ -15,6 +15,7 @@ RowLayout {
     property bool showLabel: true
     property bool showGraph: true
     property string iconName
+    property int graphPadding: 0
     property alias values: graph.values
     property alias secondValues: graph.secondValues
     property alias maximum: graph.maximum
@@ -45,11 +46,14 @@ RowLayout {
         id: graph
         visible: item.showGraph && !item.compactMode
         Layout.fillHeight: true
+        Layout.topMargin: item.graphPadding
+        Layout.bottomMargin: item.graphPadding
         Layout.preferredWidth: Kirigami.Units.gridUnit * 2
     }
 
     ColumnLayout {
         spacing: 0
+        Layout.alignment: Qt.AlignVCenter
         Layout.minimumWidth: Math.max(metrics.advanceWidth, topLabel.visible ? topLabel.implicitWidth : 0)
 
         PlasmaComponents.Label {

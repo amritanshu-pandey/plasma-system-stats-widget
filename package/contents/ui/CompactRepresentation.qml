@@ -31,8 +31,8 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: compact.vertical ? compact.padding : compact.spacing / 2
         anchors.rightMargin: compact.vertical ? compact.padding : compact.spacing / 2
-        anchors.topMargin: compact.vertical ? compact.spacing / 2 : compact.padding
-        anchors.bottomMargin: compact.vertical ? compact.spacing / 2 : compact.padding
+        anchors.topMargin: compact.vertical ? compact.spacing / 2 : 0
+        anchors.bottomMargin: compact.vertical ? compact.spacing / 2 : 0
         flow: compact.vertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
         rows: compact.vertical ? -1 : 1
         columns: compact.vertical ? 1 : -1
@@ -92,6 +92,7 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
+            graphPadding: compact.vertical ? 0 : compact.padding
         }
     }
 
@@ -107,6 +108,7 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
+            graphPadding: compact.vertical ? 0 : compact.padding
         }
     }
 
@@ -123,6 +125,7 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
+            graphPadding: compact.vertical ? 0 : compact.padding
         }
     }
 
@@ -139,6 +142,7 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
+            graphPadding: compact.vertical ? 0 : compact.padding
         }
     }
 
@@ -154,6 +158,7 @@ Item {
             compactMode: compact.compactMode
             showLabel: compact.showLabel
             showGraph: compact.showGraph
+            graphPadding: compact.vertical ? 0 : compact.padding
         }
     }
 
