@@ -10,6 +10,11 @@ ColumnLayout {
     property string device
     property bool active
 
+    readonly property string displayName: name.value || device
+    // Volumes with the same usage are the same storage seen twice, like a
+    // file system and the encrypted drive under it.
+    readonly property string usageKey: used.value > 0 ? used.value + "/" + total.value : ""
+
     spacing: 2
 
     Sensors.Sensor {
@@ -37,7 +42,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         PlasmaComponents.Label {
-            text: name.value || volume.device
+            text: volume.displayName
             elide: Text.ElideRight
             Layout.fillWidth: true
         }

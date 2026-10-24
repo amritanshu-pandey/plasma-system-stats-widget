@@ -10,18 +10,22 @@ QtObject {
     property bool active: true
     property int interval: 5000
     property var matches: []
+    // Display names of the matches, keyed by sensor id.
+    property var names: ({})
 
     function refresh() {
         if (!tree) {
             return;
         }
         const found = [];
+        const foundNames = {};
         const walk = parent => {
             for (let row = 0; row < tree.rowCount(parent); row++) {
                 const index = tree.index(row, 0, parent);
                 const id = tree.data(index, Sensors.SensorTreeModel.SensorId) || "";
                 if (pattern.test(id)) {
                     found.push(id);
+                    foundNames[id] = tree.data(index, Qt.DisplayRole);
                 }
                 walk(index);
             }
@@ -29,6 +33,7 @@ QtObject {
         walk(tree.index(-1, -1));
         found.sort();
         if (found.join("\n") !== matches.join("\n")) {
+            names = foundNames;
             matches = found;
         }
     }

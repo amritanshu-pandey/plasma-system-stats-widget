@@ -7,6 +7,7 @@ QtObject {
     property int interval: 1000
     property int historyLength: 60
     property bool networkBits: false
+    property string temperatureSensor: "cpu/all/averageTemperature"
 
     readonly property Sensors.SensorTreeModel sensorTree: Sensors.SensorTreeModel {}
 
@@ -35,7 +36,7 @@ QtObject {
         updateRateLimit: stats.interval
     }
     readonly property Sensors.Sensor temperature: Sensors.Sensor {
-        sensorId: "cpu/all/averageTemperature"
+        sensorId: stats.temperatureSensor || "cpu/all/averageTemperature"
         updateRateLimit: stats.interval
     }
 

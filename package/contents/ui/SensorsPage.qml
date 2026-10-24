@@ -2,14 +2,16 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
+import "names.js" as Names
+
 ColumnLayout {
     id: page
 
     property Stats stats
     property bool active
 
-    // Sensors grouped by chip: [{ chip, ids }]
-    function group(ids) {
+    // Sensors grouped by chip: [{ chip, name, ids, labels }]
+    function group(ids, names) {
         const groups = [];
         for (const id of ids) {
             const chip = id.split("/")[1];
@@ -20,6 +22,11 @@ ColumnLayout {
             }
             entry.ids.push(id);
         }
+        const chipNames = Names.chipNames(groups.map(g => g.chip));
+        groups.forEach((g, i) => {
+            g.name = chipNames[i];
+            g.labels = Names.sensorNames(g.ids.map(id => names[id]));
+        });
         return groups;
     }
 
@@ -42,7 +49,7 @@ ColumnLayout {
 
     PageHeader {
         title: i18n("Sensors")
-        subtitle: i18n("CPU temperature")
+        subtitle: Names.sensorName(page.stats.temperature.name)
         value: page.stats.celsius(page.stats.temperature.value)
     }
 
@@ -55,27 +62,28 @@ ColumnLayout {
     }
 
     Repeater {
-        model: page.group(temperatures.matches)
+        model: page.group(temperatures.matches, temperatures.names)
 
         ColumnLayout {
+            id: chipGroup
             required property var modelData
 
             spacing: Kirigami.Units.smallSpacing
             Layout.fillWidth: true
 
             SectionLabel {
-                text: modelData.chip
+                text: modelData.name
             }
 
             Repeater {
                 model: modelData.ids
 
                 SensorRow {
-                    id: row
                     required property string modelData
+                    required property int index
 
                     sensorId: modelData
-                    label: row.sensor.name
+                    label: chipGroup.modelData.labels[index]
                     active: page.active
                     hideWhenEmpty: true
                 }
@@ -92,11 +100,11 @@ ColumnLayout {
         model: fans.matches
 
         SensorRow {
-            id: fan
             required property string modelData
+            required property int index
 
             sensorId: modelData
-            label: fan.sensor.name
+            label: Names.sensorNames(fans.matches.map(id => fans.names[id]))[index]
             active: page.active
         }
     }

@@ -6,9 +6,9 @@ Each module shows a small graph and its current value. Click a module to open a 
 
 - **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
 - **Memory**: used, application, cache, buffers, free, swap and top processes
-- **Disk**: read and write rates, used and free space, usage per volume and top processes by disk I/O
+- **Disk**: read and write rates, used and free space, usage per volume (duplicates hidden) and top processes by disk I/O
 - **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway
-- **Sensors**: CPU temperature history, all temperature sensors grouped by chip, and fan speeds
+- **Sensors**: temperature history, all temperature sensors grouped by chip with readable names, and fan speeds
 - **Battery**: level, charging status, time remaining, power draw, charge, health and design capacity (only shown when a battery is present)
 
 Data comes from `ksystemstats`, the same service used by Plasma System Monitor.
@@ -48,6 +48,7 @@ kpackagetool6 -t Plasma/Applet -r in.amritanshu.systemstats
 - Compact mode: smaller text, label above the value, no graphs
 - Show or hide graphs and labels
 - Space between panel modules, and padding between modules and the panel edges (text shrinks to fit)
+- Temperature sensor shown in the panel (CPU average, CPU maximum or any detected sensor)
 - Network speed in bits or bytes per second
 - Update interval (1 to 10 seconds)
 

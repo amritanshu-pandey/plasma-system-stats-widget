@@ -25,7 +25,7 @@ PlasmoidItem {
         i18n("Memory: %1", monitor.percent(monitor.memory.value)),
         i18n("Disk: %1 read, %2 write", monitor.rate(monitor.diskRead.value), monitor.rate(monitor.diskWrite.value)),
         i18n("Network: %1 down, %2 up", monitor.networkRate(monitor.download.value), monitor.networkRate(monitor.upload.value)),
-    ].concat(monitor.temperature.value > 0 ? [i18n("CPU temperature: %1", monitor.celsius(monitor.temperature.value))] : [])
+    ].concat(monitor.temperature.value > 0 ? [i18n("Temperature: %1", monitor.celsius(monitor.temperature.value))] : [])
      .concat(monitor.hasBattery ? [i18n("Battery: %1", monitor.percent(monitor.battery.value))] : [])
      .join("\n")
 
@@ -33,6 +33,7 @@ PlasmoidItem {
         id: monitor
         interval: Plasmoid.configuration.updateInterval * 1000
         networkBits: Plasmoid.configuration.networkBits
+        temperatureSensor: Plasmoid.configuration.temperatureSensor
     }
 
     compactRepresentation: CompactRepresentation {

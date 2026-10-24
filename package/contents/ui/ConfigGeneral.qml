@@ -3,6 +3,9 @@ import QtQuick.Layouts
 import QtQuick.Controls as QQC2
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import org.kde.ksysguard.sensors as Sensors
+
+import "names.js" as Names
 
 KCM.SimpleKCM {
     id: page
@@ -15,6 +18,7 @@ KCM.SimpleKCM {
     property alias cfg_verticalPadding: verticalPadding.value
     property alias cfg_networkBits: networkBits.checked
     property alias cfg_updateInterval: updateInterval.value
+    property string cfg_temperatureSensor
 
     readonly property var titles: ({
         cpu: i18n("CPU"),
@@ -24,6 +28,25 @@ KCM.SimpleKCM {
         sensors: i18n("Sensors"),
         battery: i18n("Battery"),
     })
+    readonly property var temperatureOptions: {
+        const options = [
+            { value: "cpu/all/averageTemperature", text: i18n("CPU average") },
+            { value: "cpu/all/maximumTemperature", text: i18n("CPU maximum") },
+        ];
+        const chips = temperatures.matches.map(id => id.split("/")[1]);
+        const unique = chips.filter((chip, i) => chips.indexOf(chip) === i);
+        const chipNames = Names.chipNames(unique);
+        unique.forEach((chip, i) => {
+            const ids = temperatures.matches.filter(id => id.split("/")[1] === chip);
+            const labels = Names.sensorNames(ids.map(id => temperatures.names[id]));
+            ids.forEach((id, j) => options.push({ value: id, text: chipNames[i] + " – " + labels[j] }));
+        });
+        if (cfg_temperatureSensor && !options.some(o => o.value === cfg_temperatureSensor)) {
+            options.push({ value: cfg_temperatureSensor, text: cfg_temperatureSensor });
+        }
+        return options;
+    }
+
     // All modules: enabled ones first in panel order, then the rest.
     property var order: []
 
@@ -47,6 +70,17 @@ KCM.SimpleKCM {
     Component.onCompleted: {
         const current = enabled().filter(m => m in titles);
         order = current.concat(Object.keys(titles).filter(m => !current.includes(m)));
+    }
+
+    Sensors.SensorTreeModel {
+        id: sensorTree
+    }
+
+    SensorSearch {
+        id: temperatures
+        tree: sensorTree
+        pattern: /^(lmsensors\/[\w.:-]+\/temp\d+|gpu\/gpu\d+\/temperature)$/
+        interval: 30000
     }
 
     Kirigami.FormLayout {
@@ -123,6 +157,15 @@ KCM.SimpleKCM {
 
         Item {
             Kirigami.FormData.isSection: true
+        }
+
+        QQC2.ComboBox {
+            Kirigami.FormData.label: i18n("Panel temperature:")
+            model: page.temperatureOptions
+            textRole: "text"
+            valueRole: "value"
+            currentIndex: page.temperatureOptions.findIndex(o => o.value === page.cfg_temperatureSensor)
+            onActivated: page.cfg_temperatureSensor = currentValue
         }
 
         QQC2.CheckBox {

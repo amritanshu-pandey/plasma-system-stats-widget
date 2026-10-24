@@ -11,6 +11,26 @@ ColumnLayout {
 
     spacing: Kirigami.Units.smallSpacing
 
+    // Show only one of the volumes that share the same usage, preferring the shortest name.
+    function isPreferred(index) {
+        const self = volumeRows.itemAt(index);
+        if (!self || self.usageKey === "") {
+            return true;
+        }
+        for (let i = 0; i < volumeRows.count; i++) {
+            const other = volumeRows.itemAt(i);
+            if (i === index || !other || other.usageKey !== self.usageKey) {
+                continue;
+            }
+            const shorter = other.displayName.length < self.displayName.length;
+            const tie = other.displayName.length === self.displayName.length && i < index;
+            if (shorter || tie) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     Sensors.Sensor {
         id: usedPercent
         sensorId: "disk/all/usedPercent"
@@ -84,11 +104,14 @@ ColumnLayout {
     }
 
     Repeater {
+        id: volumeRows
         model: volumes.matches
 
         VolumeRow {
             required property string modelData
+            required property int index
 
+            visible: page.isPreferred(index)
             device: modelData.split("/")[1]
             active: page.active
             Layout.fillWidth: true

@@ -41,6 +41,7 @@ ColumnLayout {
 
             PlasmaComponents.TabButton {
                 required property string modelData
+                width: tabs.width / full.modules.length
                 text: full.titles[modelData]
                 onClicked: full.moduleSelected(modelData)
             }

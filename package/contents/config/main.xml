@@ -35,6 +35,10 @@
       <label>Show network speed in bits per second</label>
       <default>false</default>
     </entry>
+    <entry name="temperatureSensor" type="String">
+      <label>Temperature sensor shown in the panel</label>
+      <default>cpu/all/averageTemperature</default>
+    </entry>
     <entry name="updateInterval" type="Int">
       <label>Update interval in seconds</label>
       <default>1</default>
