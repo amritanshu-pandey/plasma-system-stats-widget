@@ -59,6 +59,28 @@ QtObject {
     }
     readonly property bool charging: batteryRate.value > 0.05
 
+    readonly property SensorSearch gpuSearch: SensorSearch {
+        tree: stats.sensorTree
+        pattern: /^gpu\/gpu\d+\/usage$/
+        interval: 60000
+    }
+    readonly property var gpus: gpuSearch.matches.map(id => id.split("/")[1])
+    readonly property bool hasGpu: gpus.length > 0
+
+    readonly property Sensors.Sensor gpu: Sensors.Sensor {
+        sensorId: stats.hasGpu ? "gpu/all/usage" : ""
+        updateRateLimit: stats.interval
+    }
+    readonly property Sensors.Sensor gpuMemoryUsed: Sensors.Sensor {
+        sensorId: stats.hasGpu ? "gpu/all/usedVram" : ""
+        updateRateLimit: stats.interval
+    }
+    readonly property Sensors.Sensor gpuMemoryTotal: Sensors.Sensor {
+        sensorId: stats.hasGpu ? "gpu/all/totalVram" : ""
+        updateRateLimit: stats.interval
+    }
+    readonly property real gpuMemory: gpuMemoryTotal.value > 0 ? 100 * (gpuMemoryUsed.value || 0) / gpuMemoryTotal.value : NaN
+
     readonly property History cpuHistory: History { size: stats.historyLength }
     readonly property History memoryHistory: History { size: stats.historyLength }
     readonly property History diskReadHistory: History { size: stats.historyLength }
@@ -66,6 +88,8 @@ QtObject {
     readonly property History downloadHistory: History { size: stats.historyLength }
     readonly property History uploadHistory: History { size: stats.historyLength }
     readonly property History temperatureHistory: History { size: stats.historyLength }
+    readonly property History gpuHistory: History { size: stats.historyLength }
+    readonly property History gpuMemoryHistory: History { size: stats.historyLength }
 
     readonly property Timer sampler: Timer {
         interval: stats.interval
@@ -79,6 +103,10 @@ QtObject {
             stats.downloadHistory.push(stats.download.value);
             stats.uploadHistory.push(stats.upload.value);
             stats.temperatureHistory.push(stats.temperature.value);
+            if (stats.hasGpu) {
+                stats.gpuHistory.push(stats.gpu.value);
+                stats.gpuMemoryHistory.push(stats.gpuMemory);
+            }
         }
     }
 

@@ -18,7 +18,7 @@ Item {
     readonly property int spacing: Plasmoid.configuration.moduleSpacing
     readonly property int padding: Plasmoid.configuration.verticalPadding
     readonly property var modules: Array.from(Plasmoid.configuration.panelModules)
-        .filter(module => module !== "battery" || stats.hasBattery)
+        .filter(module => (module !== "battery" || stats.hasBattery) && (module !== "gpu" || stats.hasGpu))
     readonly property bool showGraph: Plasmoid.configuration.showGraphs && !vertical
     readonly property bool showLabel: Plasmoid.configuration.showLabels
 
@@ -57,6 +57,7 @@ Item {
                 sourceComponent: compact.gaugeMode ? gaugeItem : ({
                     cpu: cpuItem,
                     memory: memoryItem,
+                    gpu: gpuItem,
                     disk: diskItem,
                     network: networkItem,
                     sensors: sensorsItem,
@@ -69,8 +70,8 @@ Item {
                         module: moduleLoader.modelData
                         stats: compact.stats
                         showLabel: compact.showLabel
-                        width: Math.max(Kirigami.Units.iconSizes.small, compact.gaugeSize)
-                        height: width
+                        implicitWidth: Math.max(Kirigami.Units.iconSizes.small, compact.gaugeSize)
+                        implicitHeight: implicitWidth
                     }
                 }
 
@@ -137,14 +138,33 @@ Item {
     }
 
     Component {
+        id: gpuItem
+        CompactItem {
+            label: i18n("GPU")
+            text: compact.stats.percent(compact.stats.gpu.value)
+            sample: "100%"
+            values: compact.stats.gpuHistory.values
+            maximum: 100
+            size: compact.stats.historyLength
+            compactMode: compact.stacked
+            vertical: compact.vertical
+            availableWidth: compact.vertical ? grid.width : 0
+            showLabel: compact.showLabel
+            showGraph: compact.showGraph
+            edgePadding: compact.vertical ? 0 : compact.padding
+            availableHeight: compact.vertical ? 0 : grid.height
+        }
+    }
+
+    Component {
         id: diskItem
         CompactItem {
             label: i18n("DISK")
-            text: "R " + (compact.vertical ? compact.stats.shortRate(compact.stats.diskRead.value)
-                                           : compact.stats.rate(compact.stats.diskRead.value))
-            secondText: "W " + (compact.vertical ? compact.stats.shortRate(compact.stats.diskWrite.value)
-                                                 : compact.stats.rate(compact.stats.diskWrite.value))
-            sample: compact.vertical ? "W 999K" : "W 999 kB/s"
+            text: i18nc("disk read", "R %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskRead.value)
+                                                          : compact.stats.rate(compact.stats.diskRead.value))
+            secondText: i18nc("disk write", "W %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskWrite.value)
+                                                                 : compact.stats.rate(compact.stats.diskWrite.value))
+            sample: i18nc("disk write", "W %1", compact.vertical ? "999K" : "999 kB/s")
             values: compact.stats.diskReadHistory.values
             secondValues: compact.stats.diskWriteHistory.values
             size: compact.stats.historyLength

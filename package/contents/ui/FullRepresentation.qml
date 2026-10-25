@@ -12,23 +12,35 @@ ColumnLayout {
     property string currentModule
     property bool active
 
-    readonly property var modules: ["cpu", "memory", "disk", "network", "sensors"]
+    readonly property var modules: ["cpu", "memory"]
+        .concat(stats.hasGpu ? ["gpu"] : [])
+        .concat(["disk", "network", "sensors"])
         .concat(stats.hasBattery ? ["battery"] : [])
     readonly property var titles: ({
         cpu: i18n("CPU"),
         memory: i18n("Memory"),
+        gpu: i18n("GPU"),
         disk: i18n("Disk"),
         network: i18n("Network"),
         sensors: i18n("Sensors"),
         battery: i18n("Battery"),
     })
 
+    // Wide enough for every tab title on one line.
+    readonly property real popupWidth: Math.max(Kirigami.Units.gridUnit * 24,
+        modules.length * (Math.max(...modules.map(m => tabMetrics.advanceWidth(titles[m]))) + Kirigami.Units.gridUnit * 1.5))
+
     signal moduleSelected(string module)
 
-    Layout.minimumWidth: Kirigami.Units.gridUnit * 24
-    Layout.preferredWidth: Kirigami.Units.gridUnit * 24
+    Layout.minimumWidth: popupWidth
+    Layout.preferredWidth: popupWidth
     Layout.preferredHeight: tabs.implicitHeight + spacing + Math.min(pages.implicitHeight, Kirigami.Units.gridUnit * 30)
     spacing: Kirigami.Units.largeSpacing
+
+    FontMetrics {
+        id: tabMetrics
+        font: Kirigami.Theme.defaultFont
+    }
 
     PlasmaComponents.TabBar {
         id: tabs
@@ -72,6 +84,12 @@ ColumnLayout {
             }
             MemoryPage {
                 visible: full.currentModule === "memory"
+                stats: full.stats
+                active: full.active && visible
+                Layout.fillWidth: true
+            }
+            GpuPage {
+                visible: full.currentModule === "gpu"
                 stats: full.stats
                 active: full.active && visible
                 Layout.fillWidth: true

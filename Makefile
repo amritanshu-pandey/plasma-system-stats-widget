@@ -3,6 +3,7 @@ DOMAIN := plasma_applet_$(ID)
 VERSION := $(shell python3 -c 'import json; print(json.load(open("package/metadata.json"))["KPlugin"]["Version"])')
 PLASMOID := build/system-stats-$(VERSION).plasmoid
 QML := $(wildcard package/contents/ui/*.qml) package/contents/config/config.qml
+JS := $(wildcard package/contents/ui/*.js)
 PO := $(wildcard po/*.po)
 
 .PHONY: plasmoid install uninstall lint pot update-po translations clean
@@ -25,10 +26,10 @@ lint:
 
 pot:
 	xgettext --from-code=UTF-8 --language=JavaScript --add-comments=i18n --add-location=file \
-		--keyword= --keyword=i18n:1 --keyword=i18nc:1c,2 --keyword=i18np:1,2 --keyword=i18ncp:1c,2,3 \
+		--keyword= --keyword=i18n:1 --keyword=i18nc:1c,2 --keyword=i18np:1,2 --keyword=i18ncp:1c,2,3 --keyword=I18N_NOOP:1 \
 		--package-name="System Stats" --package-version=$(VERSION) \
 		--msgid-bugs-address=https://github.com/amritanshu-pandey/plasma-system-stats-widget/issues \
-		--sort-by-file --output=po/$(DOMAIN).pot $(sort $(QML))
+		--sort-by-file --output=po/$(DOMAIN).pot $(sort $(QML) $(JS))
 
 update-po: pot
 	for po in $(PO); do msgmerge --quiet --update --backup=none $$po po/$(DOMAIN).pot; done

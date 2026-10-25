@@ -24,11 +24,12 @@ PlasmoidItem {
     toolTipSubText: [
         i18n("CPU: %1", monitor.percent(monitor.cpu.value)),
         i18n("Memory: %1", monitor.percent(monitor.memory.value)),
+        monitor.hasGpu ? i18n("GPU: %1", monitor.percent(monitor.gpu.value)) : "",
         i18n("Disk: %1 read, %2 write", monitor.rate(monitor.diskRead.value), monitor.rate(monitor.diskWrite.value)),
         i18n("Network: %1 down, %2 up", monitor.networkRate(monitor.download.value), monitor.networkRate(monitor.upload.value)),
-    ].concat(monitor.temperature.value > 0 ? [i18n("Temperature: %1", monitor.celsius(monitor.temperature.value))] : [])
-     .concat(monitor.hasBattery ? [i18n("Battery: %1", monitor.percent(monitor.battery.value))] : [])
-     .join("\n")
+        monitor.temperature.value > 0 ? i18n("Temperature: %1", monitor.celsius(monitor.temperature.value)) : "",
+        monitor.hasBattery ? i18n("Battery: %1", monitor.percent(monitor.battery.value)) : "",
+    ].filter(line => line !== "").join("\n")
 
     Stats {
         id: monitor
@@ -45,7 +46,8 @@ PlasmoidItem {
 
     fullRepresentation: FullRepresentation {
         stats: monitor
-        currentModule: root.currentModule === "battery" && !monitor.hasBattery ? "cpu" : root.currentModule
+        currentModule: (root.currentModule === "battery" && !monitor.hasBattery)
+                       || (root.currentModule === "gpu" && !monitor.hasGpu) ? "cpu" : root.currentModule
         active: root.expanded || Plasmoid.formFactor === PlasmaCore.Types.Planar
         onModuleSelected: module => root.currentModule = module
     }

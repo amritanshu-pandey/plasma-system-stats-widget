@@ -8,7 +8,7 @@
             }
         ],
         "Category": "System Information",
-        "Description": "CPU, memory, disk, network, sensor and battery stats in the panel",
+        "Description": "CPU, memory, GPU, disk, network, sensor and battery stats in the panel",
         "Icon": "utilities-system-monitor",
         "Id": "in.amritanshu.systemstats",
         "License": "GPL-3.0-or-later",

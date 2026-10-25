@@ -28,14 +28,14 @@ ColumnLayout {
         groups.sort((a, b) => Names.chipRank(a.chip) - Names.chipRank(b.chip)
                               || a.chip.localeCompare(b.chip, undefined, { numeric: true }));
 
-        const chipNames = Names.chipNames(groups.map(g => g.chip));
+        const chipNames = Names.chipNames(groups.map(g => g.chip), text => i18n(text));
         const singles = [];
         const multiples = [];
         groups.forEach((g, i) => {
             if (g.ids.length === 1) {
                 singles.push({ id: g.ids[0], label: chipNames[i] });
             } else {
-                const labels = Names.sensorNames(g.ids.map(id => names[id]));
+                const labels = Names.sensorNames(g.ids.map(id => names[id]), text => i18n(text));
                 multiples.push({ name: chipNames[i], rows: g.ids.map((id, j) => ({ id: id, label: labels[j] })) });
             }
         });
@@ -47,11 +47,11 @@ ColumnLayout {
     readonly property var fanRows: {
         const chips = fans.matches.map(id => id.split("/")[1]);
         const unique = chips.filter((chip, i) => chips.indexOf(chip) === i);
-        const chipNames = Names.chipNames(unique);
+        const chipNames = Names.chipNames(unique, text => i18n(text));
         const rows = [];
         unique.forEach((chip, i) => {
             const ids = fans.matches.filter(id => id.split("/")[1] === chip);
-            const labels = Names.sensorNames(ids.map(id => fans.names[id]));
+            const labels = Names.sensorNames(ids.map(id => fans.names[id]), text => i18n(text));
             ids.forEach((id, j) => rows.push({
                 id: id,
                 label: unique.length > 1 ? chipNames[i] + " – " + labels[j] : labels[j],
@@ -79,7 +79,7 @@ ColumnLayout {
 
     PageHeader {
         title: i18n("Sensors")
-        subtitle: Names.sensorName(page.stats.temperature.name)
+        subtitle: Names.sensorName(page.stats.temperature.name, text => i18n(text))
         value: page.stats.celsius(page.stats.temperature.value)
     }
 

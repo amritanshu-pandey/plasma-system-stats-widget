@@ -6,6 +6,7 @@ Each module shows a small graph and its current value. Click a module to open a 
 
 - **CPU**: total usage, user/system/wait split, frequency, temperature, per-core usage and top processes
 - **Memory**: used, application, cache, buffers, free, swap and top processes
+- **GPU**: usage and video memory history, and per GPU video memory, temperature, power and clock speeds (only shown when a GPU is detected)
 - **Disk**: read and write rates, used and free space, usage per volume (duplicates hidden) and top processes by disk I/O
 - **Network**: download and upload rates, totals since boot, and per-interface rates, Wi-Fi signal, IP addresses and gateway, and optionally the public IP address
 - **Sensors**: temperature history, all temperature sensors grouped by chip with readable names, and fan speeds

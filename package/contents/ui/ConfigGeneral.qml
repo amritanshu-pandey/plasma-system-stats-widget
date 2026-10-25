@@ -27,6 +27,7 @@ KCM.SimpleKCM {
     readonly property var titles: ({
         cpu: i18n("CPU"),
         memory: i18n("Memory"),
+        gpu: i18n("GPU"),
         disk: i18n("Disk"),
         network: i18n("Network"),
         sensors: i18n("Sensors"),
@@ -39,10 +40,10 @@ KCM.SimpleKCM {
         ];
         const chips = temperatures.matches.map(id => id.split("/")[1]);
         const unique = chips.filter((chip, i) => chips.indexOf(chip) === i);
-        const chipNames = Names.chipNames(unique);
+        const chipNames = Names.chipNames(unique, text => i18n(text));
         unique.forEach((chip, i) => {
             const ids = temperatures.matches.filter(id => id.split("/")[1] === chip);
-            const labels = Names.sensorNames(ids.map(id => temperatures.names[id]));
+            const labels = Names.sensorNames(ids.map(id => temperatures.names[id]), text => i18n(text));
             ids.forEach((id, j) => options.push({ value: id, text: chipNames[i] + " – " + labels[j] }));
         });
         if (cfg_temperatureSensor && !options.some(o => o.value === cfg_temperatureSensor)) {

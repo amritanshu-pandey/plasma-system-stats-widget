@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: System Stats 0.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/amritanshu-pandey/plasma-system-"
 "stats-widget/issues\n"
-"POT-Creation-Date: 2026-10-24 19:26+0000\n"
+"POT-Creation-Date: 2026-10-24 19:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,8 +68,8 @@ msgstr ""
 msgid "Charge"
 msgstr ""
 
-#: package/contents/ui/BatteryInfo.qml package/contents/ui/MemoryPage.qml
-#: package/contents/ui/VolumeRow.qml
+#: package/contents/ui/BatteryInfo.qml package/contents/ui/GpuInfo.qml
+#: package/contents/ui/MemoryPage.qml package/contents/ui/VolumeRow.qml
 msgid "%1 of %2"
 msgstr ""
 
@@ -82,14 +82,14 @@ msgid "Design capacity"
 msgstr ""
 
 #: package/contents/ui/BatteryPage.qml package/contents/ui/ConfigGeneral.qml
-#: package/contents/ui/FullRepresentation.qml
+#: package/contents/ui/FullRepresentation.qml package/contents/ui/names.js
 msgid "Battery"
 msgstr ""
 
 #: package/contents/ui/CompactRepresentation.qml
 #: package/contents/ui/ConfigGeneral.qml package/contents/ui/CpuPage.qml
 #: package/contents/ui/FullRepresentation.qml
-#: package/contents/ui/ModuleGauge.qml
+#: package/contents/ui/ModuleGauge.qml package/contents/ui/names.js
 msgid "CPU"
 msgstr ""
 
@@ -99,8 +99,25 @@ msgid "RAM"
 msgstr ""
 
 #: package/contents/ui/CompactRepresentation.qml
+#: package/contents/ui/ConfigGeneral.qml
+#: package/contents/ui/FullRepresentation.qml package/contents/ui/GpuPage.qml
+#: package/contents/ui/ModuleGauge.qml package/contents/ui/names.js
+msgid "GPU"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml
 #: package/contents/ui/ModuleGauge.qml
 msgid "DISK"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml
+msgctxt "disk read"
+msgid "R %1"
+msgstr ""
+
+#: package/contents/ui/CompactRepresentation.qml
+msgctxt "disk write"
+msgid "W %1"
 msgstr ""
 
 #: package/contents/ui/CompactRepresentation.qml
@@ -117,7 +134,7 @@ msgstr ""
 
 #: package/contents/ui/ConfigGeneral.qml
 #: package/contents/ui/FullRepresentation.qml
-#: package/contents/ui/MemoryPage.qml
+#: package/contents/ui/MemoryPage.qml package/contents/ui/names.js
 msgid "Memory"
 msgstr ""
 
@@ -253,7 +270,7 @@ msgstr ""
 msgid "Frequency"
 msgstr ""
 
-#: package/contents/ui/CpuPage.qml
+#: package/contents/ui/CpuPage.qml package/contents/ui/GpuInfo.qml
 msgid "Temperature"
 msgstr ""
 
@@ -284,6 +301,32 @@ msgstr ""
 #: package/contents/ui/DiskPage.qml
 msgid "Volumes"
 msgstr ""
+
+#: package/contents/ui/GpuInfo.qml package/contents/ui/GpuPage.qml
+msgid "Usage"
+msgstr ""
+
+#: package/contents/ui/GpuInfo.qml package/contents/ui/GpuPage.qml
+msgid "Video memory"
+msgstr ""
+
+#: package/contents/ui/GpuInfo.qml
+msgid "Power"
+msgstr ""
+
+#: package/contents/ui/GpuInfo.qml
+msgid "Core clock"
+msgstr ""
+
+#: package/contents/ui/GpuInfo.qml
+msgid "Memory clock"
+msgstr ""
+
+#: package/contents/ui/GpuPage.qml
+msgid "%1 GPU"
+msgid_plural "%1 GPUs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: package/contents/ui/MemoryPage.qml
 msgid "Used"
@@ -390,6 +433,10 @@ msgid "Memory: %1"
 msgstr ""
 
 #: package/contents/ui/main.qml
+msgid "GPU: %1"
+msgstr ""
+
+#: package/contents/ui/main.qml
 msgid "Disk: %1 read, %2 write"
 msgstr ""
 
@@ -403,4 +450,68 @@ msgstr ""
 
 #: package/contents/ui/main.qml
 msgid "Battery: %1"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Memory module"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "NVMe drive"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Drive"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Motherboard"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Chipset"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Laptop"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Embedded controller"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "ACPI thermal zone"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Wi-Fi"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Ethernet"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "USB-C"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "SoC"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Board"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Ambient"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "Charger"
+msgstr ""
+
+#: package/contents/ui/names.js
+msgid "VRM"
 msgstr ""
