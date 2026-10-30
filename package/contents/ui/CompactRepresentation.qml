@@ -160,10 +160,10 @@ Item {
         id: diskItem
         CompactItem {
             label: i18n("DISK")
-            text: i18nc("disk read", "R %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskRead.value)
-                                                          : compact.stats.rate(compact.stats.diskRead.value))
-            secondText: i18nc("disk write", "W %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskWrite.value)
-                                                                 : compact.stats.rate(compact.stats.diskWrite.value))
+            text: i18nc("disk read", "R %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskReadRate)
+                                                          : compact.stats.rate(compact.stats.diskReadRate))
+            secondText: i18nc("disk write", "W %1", compact.vertical ? compact.stats.shortRate(compact.stats.diskWriteRate)
+                                                                 : compact.stats.rate(compact.stats.diskWriteRate))
             sample: i18nc("disk write", "W %1", compact.vertical ? "999K" : "999 kB/s")
             values: compact.stats.diskReadHistory.values
             secondValues: compact.stats.diskWriteHistory.values

@@ -73,12 +73,12 @@ ColumnLayout {
 
     SensorRow {
         label: i18n("Read")
-        value: page.stats.rate(page.stats.diskRead.value)
+        value: page.stats.rate(page.stats.diskReadRate)
         active: false
     }
     SensorRow {
         label: i18n("Write")
-        value: page.stats.rate(page.stats.diskWrite.value)
+        value: page.stats.rate(page.stats.diskWriteRate)
         active: false
     }
     SensorRow {

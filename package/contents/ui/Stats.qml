@@ -1,4 +1,5 @@
 import QtQuick
+import QtQml.Models
 import org.kde.ksysguard.sensors as Sensors
 
 QtObject {
@@ -28,6 +29,21 @@ QtObject {
         sensorId: "disk/all/write"
         updateRateLimit: stats.interval
     }
+    readonly property SensorSearch diskSearch: SensorSearch {
+        tree: stats.sensorTree
+        pattern: /^disk\/(?!all\/)[^\/]+\/(read|write)$/
+        interval: 60000
+    }
+    readonly property Instantiator diskSensors: Instantiator {
+        model: stats.diskSearch.matches
+        Sensors.Sensor {
+            sensorId: modelData
+            updateRateLimit: stats.interval
+        }
+    }
+    property real diskReadRate: NaN
+    property real diskWriteRate: NaN
+
     readonly property Sensors.Sensor download: Sensors.Sensor {
         sensorId: "network/all/download"
         updateRateLimit: stats.interval
@@ -98,8 +114,10 @@ QtObject {
         onTriggered: {
             stats.cpuHistory.push(stats.cpu.value);
             stats.memoryHistory.push(stats.memory.value);
-            stats.diskReadHistory.push(stats.diskRead.value);
-            stats.diskWriteHistory.push(stats.diskWrite.value);
+            stats.diskReadRate = stats.diskRate(stats.diskRead.value, "/read");
+            stats.diskWriteRate = stats.diskRate(stats.diskWrite.value, "/write");
+            stats.diskReadHistory.push(stats.diskReadRate);
+            stats.diskWriteHistory.push(stats.diskWriteRate);
             stats.downloadHistory.push(stats.download.value);
             stats.uploadHistory.push(stats.upload.value);
             stats.temperatureHistory.push(stats.temperature.value);
@@ -108,6 +126,26 @@ QtObject {
                 stats.gpuMemoryHistory.push(stats.gpuMemory);
             }
         }
+    }
+
+    // ksystemstats can keep removed devices whose counters wrap to huge values,
+    // which corrupts disk/all. Then sum the devices instead, counting each rate
+    // once because every volume on a drive reports the rate of the whole drive.
+    function diskRate(total, suffix) {
+        const plausible = value => Number.isFinite(value) && value >= 0 && value < 1e12;
+        if (plausible(total)) {
+            return total;
+        }
+        const rates = new Set();
+        for (let i = 0; i < diskSensors.count; i++) {
+            const sensor = diskSensors.objectAt(i);
+            if (sensor && sensor.sensorId.endsWith(suffix) && plausible(sensor.value)) {
+                rates.add(sensor.value);
+            }
+        }
+        let sum = 0;
+        rates.forEach(rate => sum += rate);
+        return rates.size > 0 ? sum : NaN;
     }
 
     function percent(value) {

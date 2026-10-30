@@ -25,7 +25,7 @@ PlasmoidItem {
         i18n("CPU: %1", monitor.percent(monitor.cpu.value)),
         i18n("Memory: %1", monitor.percent(monitor.memory.value)),
         monitor.hasGpu ? i18n("GPU: %1", monitor.percent(monitor.gpu.value)) : "",
-        i18n("Disk: %1 read, %2 write", monitor.rate(monitor.diskRead.value), monitor.rate(monitor.diskWrite.value)),
+        i18n("Disk: %1 read, %2 write", monitor.rate(monitor.diskReadRate), monitor.rate(monitor.diskWriteRate)),
         i18n("Network: %1 down, %2 up", monitor.networkRate(monitor.download.value), monitor.networkRate(monitor.upload.value)),
         monitor.temperature.value > 0 ? i18n("Temperature: %1", monitor.celsius(monitor.temperature.value)) : "",
         monitor.hasBattery ? i18n("Battery: %1", monitor.percent(monitor.battery.value)) : "",
